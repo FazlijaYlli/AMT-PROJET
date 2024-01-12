@@ -1,0 +1,126 @@
+package ch.heigvd.entities;
+
+import io.quarkus.security.jpa.Password;
+import io.quarkus.security.jpa.PasswordType;
+import io.quarkus.security.jpa.Username;
+import jakarta.persistence.*;
+
+import java.util.*;
+
+@Entity
+@Table(name = "account")
+public class Account {
+    @Column(name = "id")
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "username")
+    @Basic
+    @Username
+    private String username;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    @Basic
+    @Password(value = PasswordType.MCF)
+    private String password;
+
+    @OneToMany(mappedBy = "author")
+    private List<Message> messages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner")
+    private List<Server> serversOwner = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_server", joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "server_id"))
+    private List<Server> servers = new ArrayList<>();
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "account_privateChannel", joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id"))
+    private List<PrivateChannel> directMessages = new ArrayList<>();
+
+    public Account() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Server> getServers() {
+        return servers;
+    }
+
+    public void setServers(List<Server> servers) {
+        this.servers = servers;
+    }
+
+    public List<PrivateChannel> getDirectMessages() {
+        return directMessages;
+    }
+
+    public void setDirectMessages(List<PrivateChannel> directMessages) {
+        this.directMessages = directMessages;
+    }
+
+    public List<Server> getServersOwner() {
+        return serversOwner;
+    }
+
+    public void setServersOwner(List<Server> serversOwner) {
+        this.serversOwner = serversOwner;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", messages=" + messages +
+                ", servers=" + servers +
+                ", directMessages=" + directMessages +
+                '}';
+    }
+}
