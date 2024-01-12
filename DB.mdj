@@ -3470,7 +3470,7 @@
 										"$ref": "AAAAAAGM/OnkBT6/Whc="
 									},
 									"edgePosition": 1,
-									"text": "+users"
+									"text": "+accounts"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -4451,7 +4451,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGM/OmRnDIaWxk="
 							},
-							"name": "users",
+							"name": "accounts",
 							"end1": {
 								"_type": "UMLAssociationEnd",
 								"_id": "AAAAAAGM/OnkAz68Omo=",
