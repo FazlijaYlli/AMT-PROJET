@@ -3,6 +3,9 @@ package ch.heigvd.entities;
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.PasswordType;
 import io.quarkus.security.jpa.Username;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -122,5 +125,13 @@ public class Account {
                 ", servers=" + servers +
                 ", directMessages=" + directMessages +
                 '}';
+    }
+
+    public JsonObjectBuilder toJsonObjectBuilder() {
+        return Json.createObjectBuilder()
+                .add("id", id)
+                .add("username", username)
+                .add("email", email)
+                .add("password", password);
     }
 }
