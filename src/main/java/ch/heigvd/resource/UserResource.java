@@ -1,6 +1,7 @@
 package ch.heigvd.resource;
 
 import ch.heigvd.entities.Account;
+import ch.heigvd.utilities.ApiResponse;
 import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
@@ -8,8 +9,11 @@ import io.quarkus.security.Authenticated;
 import io.smallrye.common.annotation.Blocking;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -31,15 +35,26 @@ public class UserResource {
     }
 
     @POST
+    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
-    public String create(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
-        var account = new Account();
+    public JsonObject create(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
+
+        // TODO: Check if username/email is already taken
+
+        // TODO: Check if username/email/password are ok
+
+        // TODO: Implement password hashing / hashing strategy
+
+        Account account = new Account();
         account.setUsername(username);
         account.setEmail(email);
         account.setPassword(password);
         entityManager.persist(account);
 
-        return account;
+        if (account.getId() == null) {
+            return ApiResponse.buildResponse(ApiResponse.error("User not created"));
+        }
+        return ApiResponse.buildResponse(ApiResponse.success().add("user", account.toJsonObjectBuilder()));
     }
 
     @GET
