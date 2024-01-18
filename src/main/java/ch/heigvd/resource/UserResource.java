@@ -59,12 +59,16 @@ public class UserResource {
 
     @GET
     @Path("{id:\\d+}")
-    public String get(@PathParam("id") int id) {
-        var account = entityManager
+    public JsonObject get(@PathParam("id") int id) {
+        System.out.println("id: " + id);
+        Account account = entityManager
                 .createQuery("SELECT Account FROM Account WHERE id = :id", Account.class)
-                .setParameter("id", id)
-                .getSingleResult();
+                .setParameter("id", id).getResultStream().findFirst().orElse(null);
 
-        return account;
+        if (account == null) {
+            return ApiResponse.buildResponse(ApiResponse.error("errrrrrrrror")/*TODO*/);
+        }
+
+        return ApiResponse.buildResponse(ApiResponse.success().add("user", account.toJsonObjectBuilder()));
     }
 }
