@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Chatroom</title>
+</head>
+<body class="bg-slate-200">
+<!-- component -->
+<!-- This is an example component -->
+<div class="container mx-auto shadow-lg rounded-lg mt-20">
+    <!-- Header -->
+    <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
+        <div class="font-semibold text-2xl">Harmony</div>
+        <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
+            PFP
+        </div>
+    </div>
+    <!-- End Header -->
+    <!-- Chat-->
+    <div class="flex flex-row justify-between bg-white">
+        <!-- Channel list -->
+        <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+            <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
+                <div class="w-full">
+                    <div class="text-lg font-semibold">#channel-1</div>
+                </div>
+            </div>
+            <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
+                <div class="w-full">
+                    <div class="text-lg font-semibold">#channel-2</div>
+                </div>
+            </div>
+            <div
+                    class="flex flex-row py-4 px-2 items-center border-b-2 border-l-4 border-blue-400"
+            >
+                <div class="w-full">
+                    <div class="text-lg font-semibold">#channel-3</div>
+                </div>
+            </div>
+        </div>
+        <!-- Channel list -->
+        <!-- Messaging area -->
+        <div class="w-full px-5 flex flex-col justify-between">
+            <div class="flex flex-col mt-5">
+                <div class="flex justify-end mb-4">
+                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                        Welcome to group everyone. ⚽.
+                    </div>
+                    <img src="./img/pfp_test2.jpg"
+                            class="object-cover h-8 w-8 rounded-full"
+                            alt="" />
+                </div>
+                <div class="flex justify-start mb-4">
+                    <img
+                            src="./img/pfp_test.jpg"
+                            class="object-cover h-8 w-8 rounded-full"
+                            alt=""
+                    />
+                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+                        DORYA
+                    </div>
+                </div>
+                <div class="flex justify-end mb-4">
+                    <div>
+                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            EWGF ⏵ f+2,3 ⏵ b,f+2,3 S! f+2,3
+                        </div>
+
+                        <div class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            BB3+4
+                        </div>
+                    </div>
+                    <img
+                            src="./img/pfp_test2.jpg"
+                            class="object-cover h-8 w-8 rounded-full"
+                            alt=""
+                    />
+                </div>
+                <div class="flex justify-start mb-4">
+                    <img
+                            src="./img/pfp_test.jpg"
+                            class="object-cover h-8 w-8 rounded-full"
+                            alt=""
+                    />
+                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+                        ODORRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+                    </div>
+                </div>
+            </div>
+            <div class="py-5">
+                <input
+                        class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+                        type="text"
+                        placeholder="type your message here..."
+                />
+            </div>
+        </div>
+        <!-- End messaging area -->
+        <!-- Channel description -->
+        <div class="w-2/5 border-l-2 px-5">
+            <div class="flex flex-col">
+                <div class="font-semibold text-xl py-4">#channel-3</div>
+                <img
+                        src="./img/foot.jpg"
+                        class="object-cover rounded-xl h-64"
+                        alt=""
+                />
+                <div class="font-semibold py-4">Description du channel 3. Discussions TEKKEN only.</div>
+            </div>
+        </div>
+        <!-- End channel description -->
+    </div>
+</div>
+</body>
+<!-- add a js script-->
+<script src="./chatroom.js"></script>
+</html>
