@@ -19,7 +19,7 @@ fn test_server() -> String {
 
 #[tokio::main]
 async fn test_server_async() -> Result<String, Box<dyn Error>> {
-    let resp = reqwest::get("https://httpbin.org/ip")
+    let resp = reqwest::get("https://httpbin.org/get")
         .await?
         .text()
         .await?;
