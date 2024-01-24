@@ -21,9 +21,53 @@ async function login() {
 }
 
 async function listServers() {
-  let content = await invoke("list_servers");
+  const content = await invoke("list_servers");
   // TODO : Add the servers to the HTML layout.
   // content.data contient la liste des serveurs.
+  const list = document.getElementById("server-list");
+  list.innerHTML = "";
+
+  // Test data
+  /*const content = {
+    "status": 200,
+    "message": "List of all servers",
+    "data": [
+        {
+            "id": 1,
+            "name": "server1",
+            "owner": "ownerId"
+        },
+        {
+            "id": 2,
+            "name": "server2",
+            "owner": "ownerId"
+        }
+        ,
+        {
+            "id": 10,
+            "name": "server10",
+            "owner": "ownerId"
+        }
+    ]
+  };*/
+
+  content.data.forEach(element => {
+    let li = document.createElement("li");
+    li.innerHTML = `
+    <div class="flex justify-between align-middle w-full ">
+        <div class="mt-auto mb-auto">
+            <div class="m-2 ml-7">
+                <p class="font-semibold text-xl">${element.name}</p>
+                <p class="font-light text-xl">${element.owner}</p>
+            </div>
+        </div>
+        <button class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
+    </div>`;
+    li.onclick = () => getServer(element.id);
+    li.style.listStyle = "none";
+    list.appendChild(li);
+  });
+
   console.log(content);
 }
 
@@ -41,9 +85,7 @@ async function joinServer() {
   console.log(content);
 }
 
-async function getServer() {
-  // TODO : Get the server ID from the session
-  const serverId = document.getElementById("server-id").value;
+async function getServer(serverId) {
   let content = await invoke("get_server", {server_id: serverId});
   console.log(content);
 }
