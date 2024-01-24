@@ -13,6 +13,7 @@ public class Category implements Jsonable {
 
     @Column(name = "id")
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(name = "name")
