@@ -11,6 +11,7 @@ lazy_static! {
     static ref CLIENT: reqwest::Client = reqwest::Client::builder().cookie_provider(Arc::clone(&JAR)).build().unwrap();
 }
 
+static URL: &str = "http://localhost:8080";
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -39,7 +40,7 @@ async fn register_request(username: &str, email: &str, password: &str, password_
     params.insert("password", password);
     params.insert("password_confirm", password_confirm);
 
-    let request = client.request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = client.request(reqwest::Method::POST, URL.to_string()+"/register")
         .headers(headers)
         .form(&params);
 
@@ -70,16 +71,19 @@ async fn login_request(email: &str, password: &str) -> Result<String, Box<dyn st
     params.insert("email", email);
     params.insert("password", password);
 
-    let request = (*CLIENT).request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = (*CLIENT).request(reqwest::Method::POST, URL.to_string()+"/login")
         .headers(headers)
         .form(&params);
 
     let response = request.send().await?;
-    let body = response.text().await?;
+    //let body = response.status();
+    //println!("{}", body);
 
-    println!("{}", body);
+    response.cookies().for_each(|cookie| {
+        println!("Got cookie: {:?}", cookie);
+    });
 
-    Ok(body)
+    Ok("bite".to_string())
 }
 
 #[tauri::command]
@@ -93,8 +97,7 @@ async fn logout_request() -> Result<String, Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
-    // TODO : Change URL to correct logout URL
-    let request = CLIENT.request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/post")
         .headers(headers);
 
     let response = request.send().await?;
@@ -116,7 +119,7 @@ fn list_servers() -> String {
 
 #[tokio::main]
 async fn list_servers_request() -> Result<String, Box<dyn std::error::Error>> {
-    let request = CLIENT.request(reqwest::Method::GET, "https://httpbin.org/get");
+    let request = CLIENT.request(reqwest::Method::GET, URL.to_string() + "/servers");
 
     let response = request.send().await?;
     let body = response.text().await?;
@@ -145,7 +148,7 @@ async fn create_server_request(server_name: &str, owner: &str) -> Result<String,
     params.insert("serverName", server_name);
     params.insert("owner", owner);
 
-    let request = CLIENT.request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/servers/create")
         .headers(headers)
         .form(&params);
 
@@ -175,7 +178,7 @@ async fn join_server_request(server_id: &str) -> Result<String, Box<dyn std::err
     let mut params = std::collections::HashMap::new();
     params.insert("serverId", server_id);
 
-    let request = CLIENT.request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/servers/join")
         .headers(headers)
         .form(&params);
 
@@ -199,9 +202,7 @@ fn get_server(server_id: &str) -> String {
 
 #[tokio::main]
 async fn get_server_request(server_id: &str) -> Result<String, Box<dyn std::error::Error>> {
-    // TODO : add the server ID as GET parameter to the URL.
-    // /server/{serverId}
-    let request = CLIENT.request(reqwest::Method::GET, "https://httpbin.org/get");
+    let request = CLIENT.request(reqwest::Method::GET, URL.to_string() + "/server/" + server_id);
 
     let response = request.send().await?;
     let body = response.text().await?;
@@ -216,13 +217,13 @@ async fn get_server_request(server_id: &str) -> Result<String, Box<dyn std::erro
 // CREATE CATEGORY FUNCTIONS
 
 #[tauri::command]
-fn create_category(category_name: &str) -> String {
-    let response = get_category_request(category_name).unwrap();
+fn create_category(server_id: &str, category_name: &str) -> String {
+    let response = create_category_request(server_id, category_name).unwrap();
     response.into()
 }
 
 #[tokio::main]
-async fn get_category_request(category_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+async fn create_category_request(server_id: &str, category_name: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
@@ -230,7 +231,7 @@ async fn get_category_request(category_name: &str) -> Result<String, Box<dyn std
     params.insert("categoryName", category_name);
     
     // Put correct URL post
-    let request = CLIENT.request(reqwest::Method::POST, "https://httpbin.org/post")
+    let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/server/" + server_id + "/category/create")
         .headers(headers)
         .form(&params);
 
@@ -247,16 +248,20 @@ async fn get_category_request(category_name: &str) -> Result<String, Box<dyn std
 // GET CHANNEL FUNCTION 
 
 #[tauri::command]
-fn get_channel(channel_id: &str) -> String {
-    let response = get_channel_request(channel_id).unwrap();
+fn get_channel(server_id: &str, category_id: &str, channel_id: &str) -> String {
+    let response = get_channel_request(server_id, category_id, channel_id).unwrap();
     response.into()
 }
 
 #[tokio::main]
-async fn get_channel_request(channel_id: &str) -> Result<String, Box<dyn std::error::Error>> {
-    // TODO : add the server ID as GET parameter to the URL.
+async fn get_channel_request(server_id: &str, category_id: &str, channel_id: &str) -> Result<String, Box<dyn std::error::Error>> {
+
     // /server/{serverId}/category/{categoryId}/channel/{channelId}
-    let request = CLIENT.request(reqwest::Method::GET, "https://httpbin.org/get");
+    let request = CLIENT.request(reqwest::Method::GET,
+                                 URL.to_string()
+                                     + "/server/" + server_id
+                                     + "/category/" + category_id
+                                     + "/channel/" + channel_id);
 
     let response = request.send().await?;
     let body = response.text().await?;
@@ -271,21 +276,24 @@ async fn get_channel_request(channel_id: &str) -> Result<String, Box<dyn std::er
 // START CREATE CHANNEL
 
 #[tauri::command]
-fn create_channel(channel_name: &str) -> String {
-    let response = get_category_request(channel_name).unwrap();
+fn create_channel(server_id: &str, category_id: &str, channel_name: &str) -> String {
+    let response = create_channel_request(server_id, category_id, channel_name).unwrap();
     response.into()
 }
 
 #[tokio::main]
-async fn create_channel_request(channel_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+async fn create_channel_request(server_id: &str, category_id: &str, channel_name: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
     let mut params = std::collections::HashMap::new();
     params.insert("categoryName", channel_name);
-    
-    // TODO : correct URL for server
-    let request = CLIENT.request(reqwest::Method::POST, "https://httpbin.org/post")
+
+    let request = CLIENT.request(reqwest::Method::GET,
+                                 URL.to_string()
+                                     + "/server/" + server_id
+                                     + "/category/" + category_id
+                                     + "/channel/create")
         .headers(headers)
         .form(&params);
 
