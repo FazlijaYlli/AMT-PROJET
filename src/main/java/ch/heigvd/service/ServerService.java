@@ -24,4 +24,16 @@ public class ServerService {
 
         return query.getResultList();
     }
+
+    public Server get(Long id) {
+        TypedQuery<Server> query = em.createQuery("""
+                SELECT server
+                FROM Server server
+                JOIN server.categories cats
+                JOIN cats.channelsInCategory chans
+                WHERE server.id = :id
+        """, Server.class).setParameter("id", id);
+
+        return query.getSingleResult();
+    }
 }
