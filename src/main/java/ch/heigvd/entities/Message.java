@@ -2,6 +2,7 @@ package ch.heigvd.entities;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class Message {
 
     @Column(name = "text")
     private String text;
+
+    @Column(name = "timestamp")
+    private Date timestamp;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -54,6 +58,14 @@ public class Message {
         this.author = author;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public Channel getChannel() {
         return channel;
     }
@@ -75,6 +87,7 @@ public class Message {
         return "Message{" +
                 "id=" + id +
                 ", text='" + text + '\'' +
+                ", timestamp=" + timestamp +
                 ", author=" + author +
                 ", channel=" + channel +
                 ", attachments=" + attachments +

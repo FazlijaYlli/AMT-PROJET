@@ -241,6 +241,7 @@ CREATE TABLE message (
     id integer DEFAULT nextval('message_id_seq'::regclass) NOT NULL,
     text integer NOT NULL,
     author_id integer NOT NULL,
+    timestamp timestamp NOT NULL,
     channel_id integer NOT NULL
 );
 
