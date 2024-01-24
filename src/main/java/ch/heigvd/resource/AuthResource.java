@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
@@ -58,17 +59,24 @@ public class AuthResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject register(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
 
-        // TODO: Check if username/email is already taken
+        //check if parameters are not null
+        if(username == null || email == null || password == null || username.isEmpty() || email.isEmpty() || password.isEmpty()){
+            return API.createErrorResponse("Missing parameters");
+        }
+
+        //check if username or email are already taken
+        Query query =  entityManager.createQuery("SELECT a FROM Account a WHERE a.username = :username OR a.email = :email");
+        query.setParameter("username", username);
+        query.setParameter("email", email);
+
+        if(!query.getResultList().isEmpty()){
+            return API.createErrorResponse("Username or email already taken");
+        }
 
         // TODO: Check if username/email/password are ok
 
         // TODO: Implement password hashing / hashing strategy
 
-
-        //check if parameters are not null
-        if(username == null || email == null || password == null || username.isEmpty() || email.isEmpty() || password.isEmpty()){
-            return API.createErrorResponse("Missing parameters");
-        }
 
         Account account = new Account();
         account.setUsername(username);
