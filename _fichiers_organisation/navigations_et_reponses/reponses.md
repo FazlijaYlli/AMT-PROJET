@@ -1,24 +1,25 @@
 
-# landing Page
+# Landing Page
 
-## GET landingPage()
+## GET /landing 
 
-géré dans le frontend
+Géré dans le frontend
 
-# login
+# Root (/)
 
-## GET login()
+## GET /login
 
-géré dans le frontend
+Géré dans le frontend
 
-## POST login(user)
+## POST /login
 
+Form params
 ```POST form-param
-    username: "username",
+    email: "email",
     password: "password" 
 ```
 
-### case 1: login error
+### case 1: Error
 
 ```json
 {
@@ -27,31 +28,19 @@ géré dans le frontend
 }
 ```
 
-### case 2: login success
+### case 2: Success
 
-```json
-{
-    "status": 200,
-    "message": "Login success",
-    "data" : 
-        {
-            "username": "username",
-            "token": "TOKEN" // TODO : ok ??
-        },
-}
-```
+Status 200 response with session cookie `quarkus-credential`. Cookie needs to be sent for every authenticated request
 
-then redirect to GET listServers(authUser)
+Redirect to GET `/servers`
 
+## GET /register
 
-# register
+Géré dans le frontend
 
-## GET register()
+## POST /register
 
-géré dans le frontend
-
-## POST register(user)
-
+Form params
 ```POST form-param
     username: "username",
     email: "email",
@@ -59,7 +48,7 @@ géré dans le frontend
     password-confirm: "password"
 ```
 
-### case 1: register error
+### case 1: Error
 
 ```json
 {
@@ -68,7 +57,7 @@ géré dans le frontend
 }
 ```
 
-### case 2: register success
+### case 2: Success
 
 ```json
 {
@@ -77,13 +66,30 @@ géré dans le frontend
 }
 ```
 
-redirect to login
+Redirect to `/login`
 
-# listServers
+## POST /logout (Auth)
 
-## GET listServers(authUser)
+### case 1: Error
 
-### case 1: listServers error
+```json
+{
+    "status": 400,
+    "message": "Error, can't logout"
+}
+```
+
+### case 2: Success
+
+Status 200 response with immediatly expiring session cookie `quarkus-credential`
+
+Redirect to `/landing`
+
+# /servers (Auth)
+
+## GET /
+
+### case 1: Error
 
 ```json
 {
@@ -92,7 +98,7 @@ redirect to login
 }
 ```
 
-### case 2: listServers success
+### case 2: Success
 
 ```json
 {
@@ -116,20 +122,19 @@ redirect to login
 }
 ```
 
-# createServerForm
+## GET /create
 
-## GET createServerForm()
+Géré dans le frontend
 
-géré dans le frontend
+## POST /create
 
-## POST createServerForm(authUser, server)
-
+Form params
 ```POST form-param
     serverName: "name",
-    owner: "email"
+    owner: "id"
 ```
 
-### case 1: createServerForm error
+### case 1: Error
 
 ```json
 {
@@ -138,7 +143,7 @@ géré dans le frontend
 }
 ```
 
-### case 2: createServerForm success
+### case 2: Success
 
 ```json
 {
@@ -151,17 +156,16 @@ géré dans le frontend
 }
 ```
 
-Redirect to GET server(createdServer)
+Redirect to GET `/server/{serverId}`
 
-# joinServer action
+## POST /join
 
-## POST joinServer(authUser, serverId)
-
+Form params
 ```POST form-param
     serverId: "id"
 ```
 
-### case 1: joinServer error
+### case 1: Error
 
 ```json
 {
@@ -170,7 +174,7 @@ Redirect to GET server(createdServer)
 }
 ```
 
-### case 2: joinServer success
+### case 2: Success
 
 ```json
 {
@@ -183,11 +187,11 @@ Redirect to GET server(createdServer)
 }
 ```
 
-Redirect to GET server(serverId)
+Redirect to GET `/server/{serverId}`
 
-# server
+# /server (Auth)
 
-## GET server(authUser, serverId)
+## GET /{serverId}
 
 ### case 1: server error
 
@@ -250,21 +254,20 @@ Redirect to GET server(serverId)
 
 Populate the server page with the data
 
-# createCategoryForm
+# /server/{serverId}/category (Auth) 
 
-ACCESS ONLY FOR SERVER OWNER
+## GET /create (ServerOwner)
 
-## GET createCategoryForm(authUser, serverId)
+Géré dans le frontend
 
-géré dans le frontend
+## POST /create (ServerOwner)
 
-## POST createCategoryForm(authUser, serverId)
-
+Form params
 ```POST form-param
     categoryName: "name"
 ```
 
-### case 1: createCategoryForm error
+### case 1: Error
 
 ```json
 {
@@ -273,7 +276,7 @@ géré dans le frontend
 }
 ```
 
-### case 2: createCategoryForm success
+### case 2: Success
 
 ```json
 {
@@ -286,52 +289,13 @@ géré dans le frontend
 }
 ```
 
-Redirect to GET server(serverId)
+Redirect to GET `/server/{serverId}`
 
-# createChannelForm
+# /server/{serverId}/category/{categoryId}/channel (Auth)
 
-ACCESS ONLY FOR SERVER OWNER
+## GET /{channelId}
 
-## GET createChannelForm(authUser, serverId)
-
-géré dans le frontend
-
-## POST createChannel(authUser, serverId, categoryId)
-
-```POST form-param
-    categoryId: "id"
-    channelName: "name"
-```
-
-### case 1: createChannel error
-
-```json
-{
-    "status": 400,
-    "message": "Error, can't create channel"
-}
-```
-
-### case 2: createChannel success
-
-```json
-{
-    "status": 200,
-    "message": "Create channel success",
-    "data": {
-        "id": 1,
-        "name": "createdChannelName"
-    }
-}
-```
-
-Redirect to GET server(serverId)
-
-# channel
-
-## GET channel(authUser, serverId, channelId)
-
-### case 1: channel error
+### case 1: Error
 
 ```json
 {
@@ -340,7 +304,7 @@ Redirect to GET server(serverId)
 }
 ```
 
-### case 2: channel success
+### case 2: Success
 
 ```json
 {
@@ -373,3 +337,40 @@ Redirect to GET server(serverId)
 ```
 
 Populate the channel page with the data
+
+
+## GET /create (ServerOwner)
+
+Géré dans le frontend
+
+## POST /create (ServerOwner)
+
+Form params
+```POST form-param
+    categoryId: "id"
+    channelName: "name"
+```
+
+### case 1: Error
+
+```json
+{
+    "status": 400,
+    "message": "Error, can't create channel"
+}
+```
+
+### case 2: Success
+
+```json
+{
+    "status": 200,landingPage
+    "message": "Create channel success",
+    "data": {
+        "id": 1,
+        "name": "createdChannelName"
+    }
+}
+```
+
+Redirect to GET `/server/{serverId}`
