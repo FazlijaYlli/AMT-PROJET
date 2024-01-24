@@ -10,7 +10,6 @@ import java.util.List;
 @Table(name = "server")
 public class Server {
 
-
     @Column(name = "id")
     @Id
     @GeneratedValue

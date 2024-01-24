@@ -1,0 +1,27 @@
+package ch.heigvd.service;
+
+import ch.heigvd.entities.Server;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
+
+@ApplicationScoped
+public class ServerService {
+
+    @Inject
+    EntityManager em;
+
+    public List<Server> listServers() {
+        TypedQuery<Server> query = em.createQuery("""
+                SELECT server
+                FROM Server server
+                JOIN server.categories cats
+                JOIN cats.channelsInCategory chans
+        """, Server.class);
+
+        return query.getResultList();
+    }
+}
