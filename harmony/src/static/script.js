@@ -21,7 +21,7 @@ async function login() {
 }
 
 async function listServers() {
-  let content = await invoke("list_servers");
+  let content = JSON.parse(await invoke("list_servers"));
   // TODO : Add the servers to the HTML layout.
   // content.data contient la liste des serveurs.
   const list = document.getElementById("server-list");
