@@ -34,6 +34,31 @@ Status 200 response with session cookie `quarkus-credential`. Cookie needs to be
 
 Redirect to GET `/servers`
 
+## GET /me (Auth)
+
+### case 1: Error
+
+```json
+{
+    "status": 400,
+    "message": "Error, can't get user"
+}
+```
+
+### case 2: Success
+
+```json
+{
+    "status": 200,
+    "message": "Get user success",
+    "data": {
+        "id": 1,
+        "username": "authUser",
+        "email": "email",
+    }
+}
+```
+
 ## GET /register
 
 Géré dans le frontend
