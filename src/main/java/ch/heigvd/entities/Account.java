@@ -4,6 +4,8 @@ import io.quarkus.security.jpa.*;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
+import jakarta.xml.bind.DatatypeConverter;
+import org.wildfly.security.password.interfaces.SimpleDigestPassword;
 
 import java.util.*;
 
@@ -26,7 +28,7 @@ public class Account implements Jsonable {
 
     @Column(name = "password")
     @Basic
-    @Password(value = PasswordType.MCF)
+    @Password(value = PasswordType.CLEAR/*value = PasswordType.CUSTOM, provider = CustomPasswordProvider.class*/)
     private String password;
 
     @OneToMany(mappedBy = "author")
@@ -135,5 +137,19 @@ public class Account implements Jsonable {
                 .add("username", username)
                 .add("email", email)
                 .add("password", password);
+    }
+
+    static class CustomPasswordProvider implements PasswordProvider {
+
+        public CustomPasswordProvider() {
+
+        }
+
+        @Override
+        public org.wildfly.security.password.Password getPassword(String pass) {
+            byte[] digest = pass.getBytes();
+
+            return SimpleDigestPassword.createRaw(SimpleDigestPassword.ALGORITHM_SIMPLE_DIGEST_SHA_1, digest);
+        }
     }
 }
