@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -46,6 +47,7 @@ public class ServersResource {
     @POST
     @Path("join")
     @Authenticated
+    @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject joinServer(@Context SecurityContext securityContext,
@@ -91,6 +93,7 @@ public class ServersResource {
     @POST
     @Path("create")
     @Authenticated
+    @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject createServer(@Context SecurityContext securityContext,
