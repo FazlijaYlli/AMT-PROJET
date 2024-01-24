@@ -9,6 +9,7 @@ import org.wildfly.security.password.interfaces.SimpleDigestPassword;
 
 import java.util.*;
 
+
 @Entity
 @Table(name = "account")
 @UserDefinition
