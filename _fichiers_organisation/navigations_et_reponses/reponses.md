@@ -196,8 +196,7 @@ Géré dans le frontend
 
 Form params
 ```POST form-param
-    serverName: "name",
-    owner: "id"
+    serverName: "name"
 ```
 
 ### case 1: Error
