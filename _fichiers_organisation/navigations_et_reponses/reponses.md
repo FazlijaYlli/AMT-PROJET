@@ -318,18 +318,20 @@ Redirect to GET `/server/{serverId}`
                 "id": 1,
                 "content": "message1",
                 "author": "author1",
-                "timestamp": "dd/mm/yyyy"
+                "timestamp": "unix-timestamp"
             },
             {
                 "id": 2,
                 "content": "message2",
-                "date": "date2"
-            }
-            ...
+                "author": "author2",
+                "timestamp": "unix-timestamp"
+            },
+            // ...
             {
                 "id": 10,
                 "content": "message10",
-                "date": "date10"
+                "author": "author10",
+                "timestamp": "unix-timestamp"
             }
         ]
     }
@@ -347,7 +349,6 @@ Géré dans le frontend
 
 Form params
 ```POST form-param
-    categoryId: "id"
     channelName: "name"
 ```
 
@@ -364,7 +365,7 @@ Form params
 
 ```json
 {
-    "status": 200,landingPage
+    "status": 200,
     "message": "Create channel success",
     "data": {
         "id": 1,
