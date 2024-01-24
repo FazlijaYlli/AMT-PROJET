@@ -2,6 +2,7 @@ package ch.heigvd.resource;
 
 import ch.heigvd.entities.Account;
 import ch.heigvd.service.API;
+import ch.heigvd.service.UserService;
 import io.quarkus.security.Authenticated;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,6 +19,9 @@ import java.util.Date;
 @Path("")
 @ApplicationScoped
 public class AuthResource {
+
+    @Inject
+    UserService us;
 
     @Inject
     EntityManager entityManager;
@@ -44,7 +48,7 @@ public class AuthResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject me(@Context SecurityContext securityContext) {
 
-        return API.createResponse("Me :3", ((Account)securityContext.getUserPrincipal()));
+        return API.createResponse("Me :3 WuW", us.resolve(securityContext));
     }
 
     //TODO: Implement register

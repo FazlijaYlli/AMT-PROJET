@@ -4,6 +4,7 @@ import ch.heigvd.entities.Account;
 import ch.heigvd.entities.Server;
 import ch.heigvd.service.API;
 import ch.heigvd.service.ServerService;
+import ch.heigvd.service.UserService;
 import io.quarkus.security.Authenticated;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,21 +24,24 @@ import java.util.List;
 public class ServersResource {
 
     @Inject
+    UserService us;
+
+    @Inject
     EntityManager entityManager;
+
+
+    @Inject
+    ServerService serverService;
 
     @GET
     @Path("")
     @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getServers(@Context SecurityContext securityContext) {
-
-        ServerService serverService = new ServerService();
-
         List<Server> servers = serverService.listServers();
 
-        String successMessage = "List of servers for user " + ((Account)securityContext.getUserPrincipal()).getUsername();
+        String successMessage = "List of servers for user " + us.resolve(securityContext).getUsername();
 
         return API.createServerListResponse(successMessage, servers);
     }
-    
 }
