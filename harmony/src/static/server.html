@@ -19,23 +19,14 @@
         </div>
     </div>
     <!-- End Header -->
+    <div id="server-id">SERVER_ID_HERE</div>
     <!-- Chat-->
     <div class="flex flex-row justify-between bg-white">
         <!-- Channel list -->
         <div id="channel-area" class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
-            <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
+            <div onclick="getChannel()" class="flex flex-row py-4 px-2 justify-center items-center border-b-2 border-l-4 border-blue-400">
                 <div class="w-full">
                     <div class="text-lg font-semibold">#channel-1</div>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
-                <div class="w-full">
-                    <div class="text-lg font-semibold">#channel-2</div>
-                </div>
-            </div>
-            <div class="flex flex-row py-4 px-2 items-center border-b-2 border-l-4 border-blue-400">
-                <div class="w-full">
-                    <div class="text-lg font-semibold">#channel-3</div>
                 </div>
             </div>
         </div>
@@ -51,42 +42,6 @@
                             class="object-cover h-8 w-8 rounded-full"
                             alt="" />
                 </div>
-                <div class="flex justify-start mb-4">
-                    <img
-                            src="./img/pfp_test.jpg"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt=""
-                    />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        DORYA
-                    </div>
-                </div>
-                <div class="flex justify-end mb-4">
-                    <div>
-                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            EWGF ⏵ f+2,3 ⏵ b,f+2,3 S! f+2,3
-                        </div>
-
-                        <div class="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            BB3+4
-                        </div>
-                    </div>
-                    <img
-                            src="./img/pfp_test2.jpg"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt=""
-                    />
-                </div>
-                <div class="flex justify-start mb-4">
-                    <img
-                            src="./img/pfp_test.jpg"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt=""
-                    />
-                    <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                        ODORRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-                    </div>
-                </div>
             </div>
             <div class="py-5">
                 <input
@@ -94,8 +49,6 @@
                         type="text"
                         placeholder="type your message here..."
                 />
-                <button onclick="addMessage('./img/pfp_test.jpg', 'Message ajouté depuis JS.')">Add Message</button>
-                <button onclick="testServer()">Test server</button>
             </div>
         </div>
         <!-- End messaging area -->

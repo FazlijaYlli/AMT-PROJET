@@ -22,6 +22,8 @@ async function login() {
 
 async function listServers() {
   let content = await invoke("list_servers");
+  // TODO : Add the servers to the HTML layout.
+  // content.data contient la liste des serveurs.
   console.log(content);
 }
 
@@ -46,7 +48,7 @@ async function getServer() {
   console.log(content);
 }
 
-async function createCategoryForm() {
+async function createCategory() {
   const serverId = document.getElementById("server-id").value;
   const categoryName = document.getElementById("category-name").value;
   let content = await invoke("create_category", { server_id: serverId, category_name: categoryName });
@@ -55,14 +57,19 @@ async function createCategoryForm() {
 
 async function getChannel() {
   // TODO : Get the correct channel ID from the click event
+  const serverId = document.getElementById("server-id").value;
+  const categorylId = document.getElementById("category-id").value;
   const channelId = document.getElementById("channel-id").value;
-  let content = await invoke("get_channel", { channel_id: channelId });
+  let content = await invoke("get_channel", { server_id: serverId, category_id: categorylId, channel_id: channelId });
   console.log(content);
 }
 
 async function createChannel() {
+  // TODO get the category and server id correctly
+  const serverId = document.getElementById("server-id").value;
+  const categorylId = document.getElementById("category-id").value;
   const channelName = document.getElementById("channel-name").value;
-  let content = await invoke("create_channel", { channel_name: channelName });
+  let content = await invoke("create_channel", { server_id: serverId, category_id: categorylId, channel_name: channelName });
   console.log(content);
 }
 
@@ -89,15 +96,4 @@ function addMessage(img_link, content) {
   alt="" />
   </div>`
   messageArea.appendChild(element);
-}
-
-/*
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
-}*/
-
-async function testServer() {
-  let content = await invoke("test_server");
-  addMessage('./img/foot.jpg', content)
 }
