@@ -2,8 +2,6 @@
 
 -- Drop Tables
 
--- TODO modify to fit project
-
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS server;
 DROP TABLE IF EXISTS category;
@@ -15,14 +13,10 @@ DROP TABLE IF EXISTS attachment;
 
 -- DROP SEQUENCE IF EXISTSS
 
--- TODO modify to fit project
-
 DROP SEQUENCE IF EXISTS account_id_seq;
 DROP SEQUENCE IF EXISTS server_id_seq;
 DROP SEQUENCE IF EXISTS category_id_seq;
 DROP SEQUENCE IF EXISTS channel_id_seq;
-/*DROP SEQUENCE IF EXISTS privateChannel_id_seq;
-DROP SEQUENCE IF EXISTS serverChannel_id_seq;*/
 DROP SEQUENCE IF EXISTS message_id_seq;
 DROP SEQUENCE IF EXISTS attachment_id_seq;
 
@@ -61,63 +55,12 @@ ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO postgres;
 
 SET search_path = public, pg_catalog;
 
-CREATE SEQUENCE account_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-CREATE SEQUENCE server_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-CREATE SEQUENCE category_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-CREATE SEQUENCE channel_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-/*CREATE SEQUENCE privateChannel_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-CREATE SEQUENCE serverChannel_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;*/
-
-CREATE SEQUENCE message_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-CREATE SEQUENCE attachment_id_seq
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.account_id_seq OWNER TO postgres;
-
 --
 -- Name: account; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE account (
-    id integer DEFAULT nextval('account_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     username varchar(45) NOT NULL,
     email varchar(255) NOT NULL,
     password varchar(80)
@@ -133,14 +76,12 @@ ALTER TABLE public.account OWNER TO postgres;
 --
 
 
-ALTER TABLE public.channel_id_seq OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 CREATE TABLE channel (
-    id integer DEFAULT nextval('channel_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     name varchar(45) NOT NULL
 );
 
@@ -185,7 +126,7 @@ CREATE TABLE serverChannel (
 
 ALTER TABLE serverChannel
     ADD CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES category (id),
-    ADD CONSTRAINT fk_channel_id FOREIGN KEY (channel_id) REFERENCES channel (id)
+    ADD CONSTRAINT fk_channel_id FOREIGN KEY (channel_id) REFERENCES channel (id);
 
 ALTER TABLE public.serverChannel OWNER TO postgres;
 
@@ -194,10 +135,8 @@ ALTER TABLE public.serverChannel OWNER TO postgres;
 -- Name: category; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-ALTER TABLE public.category_id_seq OWNER TO postgres;
-
 CREATE TABLE category (
-    id integer DEFAULT nextval('category_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     name varchar(45) NOT NULL
 );
 
@@ -211,11 +150,8 @@ ALTER TABLE public.category OWNER TO postgres;
 -- Name: server; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-ALTER TABLE public.server_id_seq OWNER TO postgres;
-
-
 CREATE TABLE server (
-    id integer DEFAULT nextval('server_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     name varchar(45) NOT NULL,
     owner_id integer NOT NULL
 );
@@ -235,10 +171,8 @@ ALTER TABLE public.server OWNER TO postgres;
 -- Name: message; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-ALTER TABLE public.message_id_seq OWNER TO postgres;
-
 CREATE TABLE message (
-    id integer DEFAULT nextval('message_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     text integer NOT NULL,
     author_id integer NOT NULL,
     timestamp timestamp NOT NULL,
@@ -261,10 +195,9 @@ ALTER TABLE public.message OWNER TO postgres;
 -- Name: attachment; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-ALTER TABLE public.attachment_id_seq OWNER TO postgres;
 
 CREATE TABLE attachment (
-    id integer DEFAULT nextval('attachment_id_seq'::regclass) NOT NULL,
+    id serial DEFAULT NOT NULL,
     url text NOT NULL,
     message_id integer NOT NULL
 );
@@ -308,6 +241,12 @@ ALTER TABLE account_privateChannel
     ADD CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES account (id);
 
 ALTER TABLE public.account_privateChannel OWNER TO postgres;
+
+
+CREATE TABLE test (
+    id serial DEFAULT NOT NULL
+);
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
