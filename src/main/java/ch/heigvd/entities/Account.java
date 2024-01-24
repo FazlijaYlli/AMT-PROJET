@@ -18,11 +18,11 @@ public class Account {
     private Long id;
 
     @Column(name = "username")
-    @Basic
-    @Username
     private String username;
 
     @Column(name = "email")
+    @Basic
+    @Username
     private String email;
 
     @Column(name = "password")

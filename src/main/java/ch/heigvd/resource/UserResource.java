@@ -39,7 +39,7 @@ public class UserResource {
 
     //TODO: Implement register
     @POST
-    @Path("login")
+    @Path("register")
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject register(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
@@ -64,7 +64,7 @@ public class UserResource {
 
     //TODO: Implement login
     @POST
-    @Path("register")
+    @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject login(@FormParam("username") String username, @FormParam("password") String password) {
 
