@@ -54,8 +54,8 @@ async function listServers() {
   content.data.forEach(element => {
     let li = document.createElement("li");
     li.innerHTML = `
-    <div class="flex justify-between align-middle w-full ">
-        <div class="mt-auto mb-auto">
+    <div class="flex justify-between align-middle w-full">
+        <div class="mt-auto mb-auto pb-3">
             <div class="m-2 ml-7">
                 <p class="font-semibold text-xl">${element.name}</p>
                 <p class="font-light text-xl">${element.owner}</p>
