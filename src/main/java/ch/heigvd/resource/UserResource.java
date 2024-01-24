@@ -28,6 +28,7 @@ public class UserResource {
     @Inject
     EntityManager entityManager;
 
+    //TODO: remove this
     @GET
     @Path("me")
     @Authenticated()
@@ -36,10 +37,12 @@ public class UserResource {
         return ApiResponse.buildResponse(ApiResponse.success().add("user", ((Account)securityContext.getUserPrincipal()).toJsonObjectBuilder()));
     }
 
+    //TODO: Implement register
     @POST
+    @Path("login")
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject create(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
+    public JsonObject register(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password) {
 
         // TODO: Check if username/email is already taken
 
@@ -59,7 +62,23 @@ public class UserResource {
         return ApiResponse.buildResponse(ApiResponse.success().add("user", account.toJsonObjectBuilder()));
     }
 
+    //TODO: Implement login
+    @POST
+    @Path("register")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject login(@FormParam("username") String username, @FormParam("password") String password) {
+
+        // TODO: Check if username exists
+
+        // TODO : Response with success token or error
+        return JsonObject.EMPTY_JSON_OBJECT;
+
+    }
+
+
+    // TODO get by username also
     @GET
+    @Authenticated
     @Path("{id:\\d+}")
     public JsonObject get(@PathParam("id") int id) {
         System.out.println("id: " + id);
