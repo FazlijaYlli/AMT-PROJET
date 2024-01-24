@@ -6,6 +6,8 @@ import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import java.util.List;
+
 public class API {
 
 
@@ -20,28 +22,33 @@ public class API {
                 .build();
     }
 
-    static public JsonObject createServerListResponse(JsonObjectBuilder status) {
-        return status
-                .add("data", serverList())
+    static public JsonObject createServerListResponse(String successMessage, List<Server> servers) {
+        return API.success(successMessage)
+                .add("data", serverList(servers))
                 .build();
     }
 
-    static private JsonArrayBuilder serverList() {
+    static public JsonObject createCategoryAndChannelListResponse(String successMessage, Server server) {
+        return API.success(successMessage)
+                .add("data", categoryAndChannelList(server))
+                .build();
+    }
+
+    static public JsonObject createMessagesResponse(String successMessage, Channel channel) {
+        return API.success(successMessage)
+                .add("data", messageList(channel))
+                .build();
+    }
+
+
+    static private JsonArrayBuilder serverList(List<Server> servers) {
         JsonArrayBuilder serverArray = Json.createArrayBuilder();
 
-        ServerService serverService = new ServerService();
-
-        for (Server server : serverService.listServers()) {
+        for (Server server : servers) {
             serverArray.add(server.toJson());
         }
 
         return serverArray;
-    }
-
-    static public JsonObject createCategoryAndChannelListResponse(JsonObjectBuilder status, Server server) {
-        return status
-                .add("data", categoryAndChannelList(server))
-                .build();
     }
 
     static private JsonObjectBuilder categoryAndChannelList(Server server) {
@@ -73,13 +80,6 @@ public class API {
             channelArray.add(channel.toJson());
         }
         return channelArray;
-    }
-
-
-    static public JsonObject createMessagesResponse(JsonObjectBuilder status, Channel channel) {
-        return status
-                .add("data", messageList(channel))
-                .build();
     }
 
     static private JsonObjectBuilder messageList(Channel channel) {

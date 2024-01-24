@@ -38,15 +38,14 @@ public class AuthResource {
     }
 
     //TODO: remove this
-    /*
     @GET
     @Path("me")
     @Authenticated()
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject me(@Context SecurityContext securityContext) {
-        return ApiResponse.buildResponse(ApiResponse.success().add("user", ((Account)securityContext.getUserPrincipal()).toJsonObjectBuilder()));
+
+        return API.createResponse("Me :3", ((Account)securityContext.getUserPrincipal()));
     }
-    */
 
     //TODO: Implement register
     @POST
