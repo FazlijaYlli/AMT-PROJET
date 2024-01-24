@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -36,13 +37,32 @@ public class ServersResource {
     @Path("")
     @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject getServers(@Context SecurityContext securityContext) {
+    public JsonObject getServers() {
         List<Server> servers = serverService.listServers();
+
+        String successMessage = "List of all servers";
+
+        return API.createServerListResponse(successMessage, servers);
+    }
+
+    @GET
+    @Path("joined")
+    @Authenticated
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject getJoinedServers(@Context SecurityContext securityContext) {
+        List<Server> servers = serverService.listServers();
+
+        // current user
+        Account user = us.resolve(securityContext);
+
+        // make new list with server where user have joined
+        servers.removeIf(server -> !server.getMembers().contains(user));
 
         String successMessage = "List of servers for user " + us.resolve(securityContext).getUsername();
 
         return API.createServerListResponse(successMessage, servers);
     }
+
 
     @POST
     @Path("join")
@@ -66,12 +86,21 @@ public class ServersResource {
         }
 
         // verify if server exists
-        Server server = entityManager.getReference(Server.class, Long.parseLong(serverId));
-        if(server == null){
+        Query query = entityManager.createQuery("SELECT s FROM Server s WHERE s.id = :id");
+        query.setParameter("id", Long.parseLong(serverId));
+
+        if (query.getResultList().size() != 1){
             return API.createErrorResponse("Server does not exist");
         }
 
+        Server server = (Server) query.getSingleResult();
+
         Account user = us.resolve(securityContext);
+
+        // verify if user is already in server
+        if(server.getMembers().contains(user)){
+            return API.createErrorResponse("User is already in server");
+        }
 
         // add user to server
         var userlist = server.getMembers();

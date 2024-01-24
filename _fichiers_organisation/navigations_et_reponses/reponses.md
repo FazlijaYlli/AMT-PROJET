@@ -128,7 +128,45 @@ Redirect to `/landing`
 ```json
 {
     "status": 200,
-    "message": "List of servers for user authUser",
+    "message": "List of all servers",
+    "data": [
+        {
+            "id": 1,
+            "name": "server1",
+            "owner": "ownerId"
+        },
+        {
+            "id": 2,
+            "name": "server2",
+            "owner": "ownerId"
+        }
+        ...
+        {
+            "id": 10,
+            "name": "server10",
+            "owner": "ownerId"
+        }
+    ]
+}
+```
+
+## GET /joined
+
+### case 1: Error
+
+```json
+{
+    "status": 400,
+    "message": "Error, can't list joined servers"
+}
+```
+
+### case 2: Success
+
+```json
+{
+    "status": 200,
+    "message": "List of all joined server for username",
     "data": [
         {
             "id": 1,

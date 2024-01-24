@@ -15,6 +15,7 @@ import jakarta.ws.rs.core.*;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
 
 @Path("")
@@ -77,11 +78,11 @@ public class AuthResource {
 
         // TODO: Implement password hashing / hashing strategy
 
-
         Account account = new Account();
         account.setUsername(username);
         account.setEmail(email);
         account.setPassword(password);
+        account.setServers(Collections.emptyList());
         entityManager.persist(account);
 
         if (account.getId() == null) {
