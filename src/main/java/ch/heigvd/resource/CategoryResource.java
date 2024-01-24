@@ -56,7 +56,7 @@ public class CategoryResource {
     @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonObject createCategory(@FormParam("channelName") String channelName) {
+    public JsonObject createChannel(@FormParam("channelName") String channelName) {
         Category category = categoryService.get(categoryId);
         
         ServerChannel channel = channelService.create(category, channelName);
