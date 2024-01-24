@@ -5,6 +5,12 @@ let greetMsgEl;
 
 function register() {
   // TODO : Get the informations from the forms and send them to the server
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const passwordConfirm = document.getElementById("password-confirm").value;
+
+
 }
 
 function login() {

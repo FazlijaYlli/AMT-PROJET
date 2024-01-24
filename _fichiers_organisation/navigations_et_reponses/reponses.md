@@ -55,7 +55,8 @@ géré dans le frontend
 ```POST form-param
     username: "username",
     email: "email",
-    password: "password" 
+    password: "password",
+    password-confirm: "password"
 ```
 
 ### case 1: register error
@@ -75,6 +76,8 @@ géré dans le frontend
     "message": "Register success",
 }
 ```
+
+redirect to login
 
 # listServers
 
@@ -123,9 +126,7 @@ géré dans le frontend
 
 ```POST form-param
     serverName: "name",
-    description: "description",
-    owner: "username"
-    // TODO : more if needed
+    owner: "email"
 ```
 
 ### case 1: createServerForm error
@@ -206,7 +207,6 @@ Redirect to GET server(serverId)
     "data": {
         "id": 1,
         "name": "serverName",
-        "description": "serverDescription",
         "owner": "serverOwner",
         "categories": [
             {
@@ -353,7 +353,8 @@ Redirect to GET server(serverId)
             {
                 "id": 1,
                 "content": "message1",
-                "author": "author1"
+                "author": "author1",
+                "timestamp": "dd/mm/yyyy"
             },
             {
                 "id": 2,
