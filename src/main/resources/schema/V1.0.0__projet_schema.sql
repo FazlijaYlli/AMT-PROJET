@@ -60,7 +60,7 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE TABLE account (
-    id serial DEFAULT NOT NULL,
+    id serial NOT NULL,
     username varchar(45) NOT NULL,
     email varchar(255) NOT NULL,
     password varchar(80)
@@ -70,6 +70,46 @@ ALTER TABLE ONLY account
     ADD CONSTRAINT pk_account PRIMARY KEY (id);
 
 ALTER TABLE public.account OWNER TO postgres;
+
+
+--
+-- Name: server; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+--
+
+CREATE TABLE server (
+    id serial NOT NULL,
+    name varchar(45) NOT NULL,
+    owner_id integer NOT NULL
+);
+
+ALTER TABLE ONLY server
+    ADD CONSTRAINT pk_server PRIMARY KEY (id);
+
+
+ALTER TABLE server
+    ADD CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES account (id);
+
+
+ALTER TABLE public.server OWNER TO postgres;
+
+
+--
+-- Name: category; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+--
+
+CREATE TABLE category (
+    id serial NOT NULL,
+    name varchar(45) NOT NULL,
+    server_id integer NOT NULL
+);
+
+ALTER TABLE ONLY category
+    ADD CONSTRAINT pk_category PRIMARY KEY (id);
+
+ALTER TABLE category
+    ADD CONSTRAINT fk_server_id FOREIGN KEY (server_id) REFERENCES server (id);
+
+ALTER TABLE public.category OWNER TO postgres;
 
 --
 -- Name: Channel; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -81,7 +121,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 CREATE TABLE channel (
-    id serial DEFAULT NOT NULL,
+    id serial NOT NULL,
     name varchar(45) NOT NULL
 );
 
@@ -101,7 +141,7 @@ ALTER TABLE public.channel OWNER TO postgres;
 
 CREATE TABLE privateChannel (
     --privateChannel_id integer DEFAULT nextval('privateChannel_id_seq'::regclass) NOT NULL,
-    channel_id integer DEFAULT NOT NULL
+    channel_id integer NOT NULL
 );
 
 ALTER TABLE privateChannel
@@ -120,8 +160,8 @@ ALTER TABLE public.privateChannel OWNER TO postgres;
 
 CREATE TABLE serverChannel (
     --serverChannel_id integer DEFAULT nextval('serverChannel_id_seq'::regclass) NOT NULL,
-    channel_id integer DEFAULT NOT NULL,
-    category_id integer DEFAULT NOT NULL
+    channel_id integer NOT NULL,
+    category_id integer NOT NULL
 );
 
 ALTER TABLE serverChannel
@@ -132,47 +172,11 @@ ALTER TABLE public.serverChannel OWNER TO postgres;
 
 
 --
--- Name: category; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
---
-
-CREATE TABLE category (
-    id serial DEFAULT NOT NULL,
-    name varchar(45) NOT NULL
-);
-
-ALTER TABLE ONLY category
-    ADD CONSTRAINT pk_category PRIMARY KEY (id);
-
-ALTER TABLE public.category OWNER TO postgres;
-
-
---
--- Name: server; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
---
-
-CREATE TABLE server (
-    id serial DEFAULT NOT NULL,
-    name varchar(45) NOT NULL,
-    owner_id integer NOT NULL
-);
-
-ALTER TABLE ONLY server
-    ADD CONSTRAINT pk_server PRIMARY KEY (id);
-
-
-ALTER TABLE server
-    ADD CONSTRAINT fk_owner_id FOREIGN KEY (owner_id) REFERENCES account (id);
-
-
-ALTER TABLE public.server OWNER TO postgres;
-
-
---
 -- Name: message; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE message (
-    id serial DEFAULT NOT NULL,
+    id serial NOT NULL,
     text integer NOT NULL,
     author_id integer NOT NULL,
     timestamp timestamp NOT NULL,
@@ -197,7 +201,7 @@ ALTER TABLE public.message OWNER TO postgres;
 
 
 CREATE TABLE attachment (
-    id serial DEFAULT NOT NULL,
+    id serial NOT NULL,
     url text NOT NULL,
     message_id integer NOT NULL
 );
@@ -213,8 +217,8 @@ ALTER TABLE public.attachment OWNER TO postgres;
 
 
 CREATE TABLE account_server (
-    server_id integer DEFAULT NOT NULL,
-    account_id integer DEFAULT NOT NULL
+    server_id integer NOT NULL,
+    account_id integer NOT NULL
 );
 
 ALTER TABLE ONLY account_server
@@ -229,12 +233,12 @@ ALTER TABLE public.account_server OWNER TO postgres;
 --
 
 CREATE TABLE account_privateChannel (
-    channel_id integer DEFAULT NOT NULL,
-    account_id integer DEFAULT NOT NULL
+    channel_id integer NOT NULL,
+    account_id integer NOT NULL
 );
 
 ALTER TABLE ONLY account_privateChannel
-    ADD CONSTRAINT pk_account_server PRIMARY KEY (channel_id, account_id);
+    ADD CONSTRAINT pk_account_privateChannel PRIMARY KEY (channel_id, account_id);
 
 ALTER TABLE account_privateChannel
     ADD CONSTRAINT fk_channel_id FOREIGN KEY (channel_id) REFERENCES channel (id),
@@ -244,7 +248,7 @@ ALTER TABLE public.account_privateChannel OWNER TO postgres;
 
 
 CREATE TABLE test (
-    id serial DEFAULT NOT NULL
+    id serial NOT NULL
 );
 
 
