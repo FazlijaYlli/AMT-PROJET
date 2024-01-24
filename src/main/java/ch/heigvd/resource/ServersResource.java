@@ -1,7 +1,6 @@
 package ch.heigvd.resource;
 
-import ch.heigvd.entities.Account;
-import ch.heigvd.entities.Server;
+import ch.heigvd.entities.*;
 import ch.heigvd.service.API;
 import ch.heigvd.service.ServerService;
 import ch.heigvd.service.UserService;
@@ -14,6 +13,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
+
+import java.util.Collections;
 import java.util.List;
 
 @Path("servers")
@@ -79,6 +80,64 @@ public class ServersResource {
         var serverlist = user.getServers();
         serverlist.add(server);
         user.setServers(serverlist);
+
+        String successMessage = "Server created successfully";
+
+        return API.createResponse(successMessage, server);
+    }
+
+
+
+    @POST
+    @Path("create")
+    @Authenticated
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject joinServer(@Context SecurityContext securityContext,
+                                 @FormParam("serverName") String serverName,
+                                 @FormParam("owner") String ownerId) {
+
+        // verify if parameters are not null
+        if(serverName == null || ownerId == null || serverName.isEmpty() || ownerId.isEmpty()){
+            return API.createErrorResponse("Missing parameters");
+        }
+
+        // verify if server id is a number
+        try{
+            Long.parseLong(ownerId);
+        }catch(NumberFormatException e){
+            return API.createErrorResponse("OwnerId is not a number");
+        }
+
+        // verify if user exists
+        Account owner = entityManager.getReference(Account.class, Long.parseLong(ownerId));
+        if(owner == null){
+            return API.createErrorResponse("Owner does not exist");
+        }
+
+        // create server
+        Server server = new Server();
+        server.setName(serverName);
+        server.setOwner(owner);
+        server.setMembers(List.of(owner));
+
+        ServerChannel channel = new ServerChannel();
+        channel.setName("General");
+        channel.setMessages(Collections.emptyList());
+
+        Category category = new Category();
+        category.setName("General");
+        category.setServer(server);
+        category.setChannelsInCategory(List.of());
+
+        category.setChannelsInCategory(List.of(channel));
+        channel.setCategory(category);
+
+        server.setCategories(List.of(category));
+
+        entityManager.persist(channel);
+        entityManager.persist(category);
+        entityManager.persist(server);
 
         String successMessage = "Server created successfully";
 
