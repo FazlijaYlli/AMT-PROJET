@@ -177,7 +177,7 @@ ALTER TABLE public.serverChannel OWNER TO postgres;
 
 CREATE TABLE message (
     id serial NOT NULL,
-    text integer NOT NULL,
+    text text NOT NULL,
     author_id integer NOT NULL,
     timestamp timestamp NOT NULL,
     channel_id integer NOT NULL
