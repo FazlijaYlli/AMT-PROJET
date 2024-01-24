@@ -1,0 +1,1 @@
+- Tauri command automatically converts the parameters from camelCase instead of just taking them as defined.
