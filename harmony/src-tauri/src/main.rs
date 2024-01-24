@@ -57,13 +57,12 @@ async fn register_request(username: &str, email: &str, password: &str, password_
 // LOGIN FUNCTIONS
 
 #[tauri::command]
-fn login(email: &str, password: &str) -> String {
-    let response = login_request(email, password).unwrap();
-    response.into()
+fn login(email: &str, password: &str) -> () {
+    login_request(email, password).unwrap();
 }
 
 #[tokio::main]
-async fn login_request(email: &str, password: &str) -> Result<String, Box<dyn std::error::Error>> {
+async fn login_request(email: &str, password: &str) -> Result<(), Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
@@ -76,14 +75,12 @@ async fn login_request(email: &str, password: &str) -> Result<String, Box<dyn st
         .form(&params);
 
     let response = request.send().await?;
-    //let body = response.status();
-    //println!("{}", body);
 
     response.cookies().for_each(|cookie| {
         println!("Got cookie: {:?}", cookie);
     });
 
-    Ok("bite".to_string())
+    Ok(())
 }
 
 #[tauri::command]

@@ -21,14 +21,14 @@ async function login() {
 }
 
 async function listServers() {
-  const content = await invoke("list_servers");
+  //const content = await invoke("list_servers");
   // TODO : Add the servers to the HTML layout.
   // content.data contient la liste des serveurs.
   const list = document.getElementById("server-list");
   list.innerHTML = "";
 
   // Test data
-  /*const content = {
+  const content = {
     "status": 200,
     "message": "List of all servers",
     "data": [
@@ -49,7 +49,7 @@ async function listServers() {
             "owner": "ownerId"
         }
     ]
-  };*/
+  };
 
   content.data.forEach(element => {
     let li = document.createElement("li");
@@ -61,9 +61,8 @@ async function listServers() {
                 <p class="font-light text-xl">${element.owner}</p>
             </div>
         </div>
-        <button class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
+        <button onclick=getServer(${element.id}) class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
     </div>`;
-    li.onclick = () => getServer(element.id);
     li.style.listStyle = "none";
     list.appendChild(li);
   });
@@ -87,6 +86,7 @@ async function joinServer() {
 
 async function getServer(serverId) {
   let content = await invoke("get_server", {server_id: serverId});
+  window.location.replace("http://localhost:8000/server.html");
   console.log(content);
 }
 
