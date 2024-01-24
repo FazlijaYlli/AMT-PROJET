@@ -251,6 +251,68 @@ CREATE TABLE test (
     id serial NOT NULL
 );
 
+-- Insert mock data into account table
+INSERT INTO account (username, email, password) VALUES
+                                                    ('user1', 'user1@example.com', 'password1'),
+                                                    ('user2', 'user2@example.com', 'password2'),
+                                                    ('user3', 'user3@example.com', 'password3');
+
+
+-- Insert mock data into server table
+INSERT INTO server (name, owner_id) VALUES
+                                        ('Server 1', 1),
+                                        ('Server 2', 2),
+                                        ('Server 3', 3);
+
+-- Insert mock data into category table
+INSERT INTO category (server_id, name) VALUES
+                                (1,'General'),
+                                (1,'Random'),
+                                (1,'Announcements'),
+                                (1,'Category 1'),
+                                (1,'Category 2'),
+                                (2,'Category 1'),
+                                (2,'Category 2'),
+                                (3,'Category 1');
+
+
+-- Insert mock data into channel table
+INSERT INTO channel (name) VALUES
+                               ('General'),
+                               ('Random'),
+                               ('Announcements');
+
+-- Insert mock data into serverChannel table
+-- Note: Since serverChannel has foreign key constraints with both category and channel tables, make sure the category and channel data is inserted first
+INSERT INTO serverChannel (channel_id, category_id) VALUES
+                                                        (1, 1),
+                                                        (2, 1),
+                                                        (3, 2);
+
+-- Insert mock data into message table
+-- Note: Since message has foreign key constraints with both account and serverChannel tables, make sure the account and serverChannel data is inserted first
+INSERT INTO message (text, author_id, timestamp, channel_id) VALUES
+                                                                 ('Hello, everyone!', 1, '2024-01-24 12:00:00', 1),
+                                                                 ('How are you doing?', 2, '2024-01-24 12:05:00', 1),
+                                                                 ('Welcome to the server!', 3, '2024-01-24 12:10:00', 2),
+                                                                 ('Any plans for the weekend?', 1, '2024-01-24 12:15:00', 2),
+                                                                 ('Important announcement!', 2, '2024-01-24 12:20:00', 3),
+                                                                 ('Let''s discuss the upcoming events.', 3, '2024-01-24 12:25:00', 3);
+
+-- Insert mock data into attachment table
+-- Note: Since attachment has a foreign key constraint with the message table, make sure the message data is inserted first
+INSERT INTO attachment (url, message_id) VALUES
+                                             ('http://example.com/attachment1', 1),
+                                             ('http://example.com/attachment2', 2),
+                                             ('http://example.com/attachment3', 3);
+
+-- Insert mock data into account_server table
+INSERT INTO account_server (account_id, server_id) VALUES
+                                                       (1, 1),
+                                                       (2, 1),
+                                                       (2, 2),
+                                                       (3, 3);
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
