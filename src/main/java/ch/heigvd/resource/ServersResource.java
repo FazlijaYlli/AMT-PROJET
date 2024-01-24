@@ -83,7 +83,7 @@ public class ServersResource {
         serverlist.add(server);
         user.setServers(serverlist);
 
-        String successMessage = "Server created successfully";
+        String successMessage = "Joined successfully";
 
         return API.createResponse(successMessage, server);
     }
