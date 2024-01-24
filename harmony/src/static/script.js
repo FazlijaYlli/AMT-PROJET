@@ -1,4 +1,4 @@
-const { invoke } = window.__TAURI__.tauri;
+const { invoke } = window.__TAURI__.tauri
 
 let greetInputEl;
 let greetMsgEl;
@@ -17,6 +17,57 @@ async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   let content = await invoke("login", { email: email, password: password});
+  console.log(content);
+}
+
+async function listServers() {
+  let content = await invoke("list_servers");
+  console.log(content);
+}
+
+async function createServer() {
+  const serverName = document.getElementById("server-name").value;
+  // TODO : get the owner from the session
+  const owner = document.getElementById("owner").value;
+  let content = await invoke("create_server", { server_name: serverName, owner: owner });
+  console.log(content);
+}
+
+async function joinServer() {
+  const serverId = document.getElementById("server-id").value;
+  let content = await invoke("join_server", { server_id: serverId });
+  console.log(content);
+}
+
+async function getServer() {
+  // TODO : Get the server ID from the session
+  const serverId = document.getElementById("server-id").value;
+  let content = await invoke("get_server", {server_id: serverId});
+  console.log(content);
+}
+
+async function createCategoryForm() {
+  const serverId = document.getElementById("server-id").value;
+  const categoryName = document.getElementById("category-name").value;
+  let content = await invoke("create_category", { server_id: serverId, category_name: categoryName });
+  console.log(content);
+}
+
+async function getChannel() {
+  // TODO : Get the correct channel ID from the click event
+  const channelId = document.getElementById("channel-id").value;
+  let content = await invoke("get_channel", { channel_id: channelId });
+  console.log(content);
+}
+
+async function createChannel() {
+  const channelName = document.getElementById("channel-name").value;
+  let content = await invoke("create_channel", { channel_name: channelName });
+  console.log(content);
+}
+
+async function logout() {
+  let content = await invoke("logout");
   console.log(content);
 }
 
