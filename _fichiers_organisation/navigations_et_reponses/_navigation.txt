@@ -1,0 +1,42 @@
+PROJET AMT - NAVIGATION ET RÉPONSES
+
+PAGES			ACTIONS			RESPONSE or 	ACTIONS
+						ACTIONS
+
+********************
+Not auth:
+********************	    
+
+landing page		-> go register
+			-> go login
+
+login 			-> login user 		-> ok 	-> go listServers
+						-> nok	-> go login(error)
+
+register		-> register user	-> ok	-> go login
+						-> nok	-> go register(error)
+
+********************
+Auth as user:
+********************
+
+listServers		-> go createServerForm
+			-> click on server	-> go server(this)
+
+createServerForm	-> create server	-> ok 	-> go server(this)
+						-> nok	-> go createServerForm(error)
+
+server			-> click channel	-> go channel(this)
+			
+			*if owner*
+
+createChannelForm	-> create channel	-> ok 	-> go server
+						-> nok	-> go createChannelForm(error)
+
+createCategoryForm	-> create category	-> ok 	-> go server
+						-> nok	-> go createCategoryForm(error)
+			*endif owner*
+
+channel			-> send message		-> ok	-> go channel
+						-> nok	-> go channel(error)
+	
