@@ -93,7 +93,7 @@ public class ServersResource {
     @Authenticated
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public JsonObject joinServer(@Context SecurityContext securityContext,
+    public JsonObject createServer(@Context SecurityContext securityContext,
                                  @FormParam("serverName") String serverName,
                                  @FormParam("owner") String ownerId) {
 
