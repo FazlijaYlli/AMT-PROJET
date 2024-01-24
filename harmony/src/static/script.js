@@ -9,7 +9,7 @@ async function register() {
   const password = document.getElementById("password").value;
   const passwordConfirm = document.getElementById("password-confirm").value;
 
-  let content = await invoke("register", { username: username, email: email, password: password, passwordConfirm: passwordConfirm });
+  let content = await invoke("register", { username: username, email: email, password: password, password_confirm: passwordConfirm });
   console.log(content);
 }
 
@@ -21,36 +21,13 @@ async function login() {
 }
 
 async function listServers() {
-  //const content = await invoke("list_servers");
+  let content = await invoke("list_servers");
   // TODO : Add the servers to the HTML layout.
   // content.data contient la liste des serveurs.
   const list = document.getElementById("server-list");
   list.innerHTML = "";
 
-  // Test data
-  const content = {
-    "status": 200,
-    "message": "List of all servers",
-    "data": [
-        {
-            "id": 1,
-            "name": "server1",
-            "owner": "ownerId"
-        },
-        {
-            "id": 2,
-            "name": "server2",
-            "owner": "ownerId"
-        }
-        ,
-        {
-            "id": 10,
-            "name": "server10",
-            "owner": "ownerId"
-        }
-    ]
-  };
-
+  // Foreach doesn't work ??????
   content.data.forEach(element => {
     let li = document.createElement("li");
     li.innerHTML = `
@@ -61,7 +38,7 @@ async function listServers() {
                 <p class="font-light text-xl">${element.owner}</p>
             </div>
         </div>
-        <button onclick=getServer(${element.id}) class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
+        <button onclick=getServer("${element.id}") class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
     </div>`;
     li.style.listStyle = "none";
     list.appendChild(li);
@@ -72,9 +49,7 @@ async function listServers() {
 
 async function createServer() {
   const serverName = document.getElementById("server-name").value;
-  // TODO : get the owner from the session
-  const owner = document.getElementById("owner").value;
-  let content = await invoke("create_server", { server_name: serverName, owner: owner });
+  let content = await invoke("create_server", { server_name: serverName });
   console.log(content);
 }
 
@@ -86,7 +61,7 @@ async function joinServer() {
 
 async function getServer(serverId) {
   let content = await invoke("get_server", {server_id: serverId});
-  window.location.replace("http://localhost:8000/server.html");
+  window.location.replace("server.html");
   console.log(content);
 }
 

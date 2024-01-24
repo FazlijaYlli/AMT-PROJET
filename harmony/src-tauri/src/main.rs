@@ -14,14 +14,14 @@ lazy_static! {
 static URL: &str = "http://localhost:8080";
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
 // REGISTER FUNCTIONS
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn register(username: &str, email: &str, password: &str, password_confirm: &str) -> String {
     let response = register_request(username, email, password, password_confirm).unwrap();
     response.into()
@@ -56,7 +56,7 @@ async fn register_request(username: &str, email: &str, password: &str, password_
 
 // LOGIN FUNCTIONS
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn login(email: &str, password: &str) -> () {
     login_request(email, password).unwrap();
 }
@@ -83,7 +83,7 @@ async fn login_request(email: &str, password: &str) -> Result<(), Box<dyn std::e
     Ok(())
 }
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn logout() -> String {
     let response = logout_request().unwrap();
     response.into()
@@ -108,7 +108,7 @@ async fn logout_request() -> Result<String, Box<dyn std::error::Error>> {
 
 // LIST SERVERS FUNCTION 
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn list_servers() -> String {
     let response = list_servers_request().unwrap();
     response.into()
@@ -130,20 +130,19 @@ async fn list_servers_request() -> Result<String, Box<dyn std::error::Error>> {
 
 // LIST CREATE SERVER FUNCTIONS
 
-#[tauri::command]
-fn create_server(server_name: &str, owner: &str) -> String {
-    let response = create_server_request(server_name, owner).unwrap();
+#[tauri::command(rename_all = "snake_case")]
+fn create_server(server_name: &str) -> String {
+    let response = create_server_request(server_name).unwrap();
     response.into()
 }
 
 #[tokio::main]
-async fn create_server_request(server_name: &str, owner: &str) -> Result<String, Box<dyn std::error::Error>> {
+async fn create_server_request(server_name: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
     let mut params = std::collections::HashMap::new();
     params.insert("serverName", server_name);
-    params.insert("owner", owner);
 
     let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/servers/create")
         .headers(headers)
@@ -161,7 +160,7 @@ async fn create_server_request(server_name: &str, owner: &str) -> Result<String,
 
 // JOIN SERVER FUNCTIONS
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn join_server(server_id: &str) -> String {
     let response = join_server_request(server_id).unwrap();
     response.into()
@@ -191,7 +190,7 @@ async fn join_server_request(server_id: &str) -> Result<String, Box<dyn std::err
 
 // GET SERVER FUNCTIONS
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn get_server(server_id: &str) -> String {
     let response = get_server_request(server_id).unwrap();
     response.into()
@@ -213,7 +212,7 @@ async fn get_server_request(server_id: &str) -> Result<String, Box<dyn std::erro
 
 // CREATE CATEGORY FUNCTIONS
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn create_category(server_id: &str, category_name: &str) -> String {
     let response = create_category_request(server_id, category_name).unwrap();
     response.into()
@@ -244,7 +243,7 @@ async fn create_category_request(server_id: &str, category_name: &str) -> Result
 
 // GET CHANNEL FUNCTION 
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn get_channel(server_id: &str, category_id: &str, channel_id: &str) -> String {
     let response = get_channel_request(server_id, category_id, channel_id).unwrap();
     response.into()
@@ -272,7 +271,7 @@ async fn get_channel_request(server_id: &str, category_id: &str, channel_id: &st
 
 // START CREATE CHANNEL
 
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 fn create_channel(server_id: &str, category_id: &str, channel_name: &str) -> String {
     let response = create_channel_request(server_id, category_id, channel_name).unwrap();
     response.into()

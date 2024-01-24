@@ -12,7 +12,7 @@
         <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
             <div>
                 <span class="font-semibold text-2xl mr-2">Harmony</span>
-                <span class="font-light text-2xl">Server List</span>
+                <span class="font-light text-2xl">Servers</span>
             </div>
             <div>
                 <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="../index.html">
@@ -20,12 +20,13 @@
                 </a>
             </div>
         </div>
-        <p class="font-semibold border-b pb-4 border-gray-200 m-4 mb-2 text-xl">Servers you're in</p>
+        <p class="font-semibold border-b pb-4 border-gray-200 m-4 mb-2 text-xl">Servers detected</p>
         <div id="server-list" class="flex-col">
-            <div class="flex justify-around w-full">
-                <p class="font-semibold text-xl m-4 mt-0">Server 1</p>
-                <button class="m-4 mt-0 bg-blue-500 rounded font-semibold text-white pl-4 pr-4">Join</button>
-            </div>
+        </div>
+        <div class="m-4">
+            <label for="server-name">Nom du serveur : </label>
+            <input class="border border-gray-200" type="text" id="server-name">
+            <button onclick="createServer('cumserver')" class="m-4 mt-0 bg-blue-500 rounded font-semibold text-white pl-4 pr-4">Create Server !</button>
         </div>
     </div>
 </body>
