@@ -112,7 +112,7 @@ public class API {
 
         dataObject.add("id", message.getId())
                 .add("content", message.getText())
-                .add("timestamp", message.getTimestamp().toString())
+                .add("timestamp", message.getTimestamp().getTime())
                 .add("author", message.getAuthor().getId());
 
         return dataObject;
