@@ -94,26 +94,14 @@ public class ServersResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject createServer(@Context SecurityContext securityContext,
-                                 @FormParam("serverName") String serverName,
-                                 @FormParam("owner") String ownerId) {
+                                 @FormParam("serverName") String serverName) {
 
         // verify if parameters are not null
-        if(serverName == null || ownerId == null || serverName.isEmpty() || ownerId.isEmpty()){
+        if(serverName == null || serverName.isEmpty()){
             return API.createErrorResponse("Missing parameters");
         }
 
-        // verify if server id is a number
-        try{
-            Long.parseLong(ownerId);
-        }catch(NumberFormatException e){
-            return API.createErrorResponse("OwnerId is not a number");
-        }
-
-        // verify if user exists
-        Account owner = entityManager.getReference(Account.class, Long.parseLong(ownerId));
-        if(owner == null){
-            return API.createErrorResponse("Owner does not exist");
-        }
+        Account owner = us.resolve(securityContext);
 
         // create server
         Server server = new Server();
