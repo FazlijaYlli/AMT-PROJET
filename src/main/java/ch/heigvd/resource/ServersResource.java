@@ -21,6 +21,7 @@ import java.util.List;
 
 @Path("servers")
 @ApplicationScoped
+@Authenticated
 public class ServersResource {
 
     @Inject
@@ -35,7 +36,6 @@ public class ServersResource {
 
     @GET
     @Path("")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getServers() {
         List<Server> servers = serverService.listServers();
@@ -47,7 +47,6 @@ public class ServersResource {
 
     @GET
     @Path("joined")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getJoinedServers(@Context SecurityContext securityContext) {
         List<Server> servers = serverService.listServers();
@@ -66,7 +65,6 @@ public class ServersResource {
 
     @POST
     @Path("join")
-    @Authenticated
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -121,7 +119,6 @@ public class ServersResource {
 
     @POST
     @Path("create")
-    @Authenticated
     @Transactional
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -163,5 +160,4 @@ public class ServersResource {
 
         return API.createResponse(successMessage, server);
     }
-
 }

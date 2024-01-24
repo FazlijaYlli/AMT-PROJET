@@ -17,6 +17,7 @@ import java.util.List;
 
 @Path("server/{serverId:\\d+}")
 @ApplicationScoped
+@Authenticated
 public class ServerResource {
 
     @PathParam("serverId")
@@ -28,7 +29,6 @@ public class ServerResource {
     @Inject
     EntityManager entityManager;
 
-
     @Inject
     ServerService serverService;
 
@@ -37,7 +37,6 @@ public class ServerResource {
 
     @GET
     @Path("/")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getServer() {
         Server srv = serverService.get(serverId);
@@ -47,10 +46,17 @@ public class ServerResource {
 
     @POST
     @Path("/category/create")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonObject createCategory(@FormParam("categoryName") String categoryName) {
+    public JsonObject createCategory(@Context SecurityContext securityContext, @FormParam("categoryName") String categoryName) {
+        Account account = us.resolve(securityContext);
+
+        Server server = serverService.get(serverId);
+
+        if(!server.getOwner().getId().equals(account.getId())) {
+            return API.createErrorResponse("Error, can't create channel");
+        }
+
         Server srv = serverService.get(serverId);
 
         Category category = categoryService.create(srv, categoryName);

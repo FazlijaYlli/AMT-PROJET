@@ -17,6 +17,7 @@ import java.util.List;
 
 @Path("server/{serverId:\\d+}/category/{categoryId:\\d+}/channel")
 @ApplicationScoped
+@Authenticated
 public class CategoryResource {
 
     @PathParam("serverId")
@@ -45,7 +46,6 @@ public class CategoryResource {
 
     @GET
     @Path("/{channelId:\\d+}")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getChannel(@PathParam("channelId") Long channelId) {
         ServerChannel chan = channelService.get(channelId);
@@ -55,10 +55,9 @@ public class CategoryResource {
 
     @POST
     @Path("/{channelId:\\d+}/post")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonObject getChannel(@Context SecurityContext securityContext, @PathParam("channelId") Long channelId, @FormParam("text") String text) {
+    public JsonObject postMessage(@Context SecurityContext securityContext, @PathParam("channelId") Long channelId, @FormParam("text") String text) {
         ServerChannel channel = channelService.get(channelId);
         Account account = us.resolve(securityContext);
 
@@ -69,16 +68,21 @@ public class CategoryResource {
 
     @POST
     @Path("/create")
-    @Authenticated
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public JsonObject createChannel(@FormParam("channelName") String channelName) {
+    public JsonObject createChannel(@Context SecurityContext securityContext, @FormParam("channelName") String channelName) {
+        Account account = us.resolve(securityContext);
+
+        Server server = serverService.get(serverId);
+
+        if(!server.getOwner().getId().equals(account.getId())) {
+            return API.createErrorResponse("Error, can't create channel");
+        }
+
         Category category = categoryService.get(categoryId);
         
         ServerChannel channel = channelService.create(category, channelName);
 
         return API.createResponse("Create channel success", channel);
     }
-
-    
 }
