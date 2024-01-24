@@ -25,12 +25,11 @@ public class ServerChannelService {
     }
 
     public ServerChannel get(Long channelId) {
-        // TODO: Fix this query
         TypedQuery<ServerChannel> query = em.createQuery("""
-                SELECT channel
-                FROM ServerChannel channel
-                JOIN channel.messages messages
-                WHERE channel.id = :id
+                SELECT sc
+                FROM ServerChannel sc
+                LEFT JOIN sc.messages messages
+                WHERE sc.id = :id
         """, ServerChannel.class).setParameter("id", channelId);
 
         return query.getSingleResult();
