@@ -3,18 +3,21 @@ const { invoke } = window.__TAURI__.tauri;
 let greetInputEl;
 let greetMsgEl;
 
-function register() {
-  // TODO : Get the informations from the forms and send them to the server
+async function register() {
   const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const passwordConfirm = document.getElementById("password-confirm").value;
 
-
+  let content = await invoke("register", { username: username, email: email, password: password, passwordConfirm: passwordConfirm });
+  console.log(content);
 }
 
-function login() {
-  // TODO : send infos to the server and allow login if success.
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  let content = await invoke("login", { email: email, password: password});
+  console.log(content);
 }
 
 function changeChannel(channel_id) {
