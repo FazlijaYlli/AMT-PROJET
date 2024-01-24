@@ -1,6 +1,8 @@
 package ch.heigvd.entities;
 
 
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "server")
-public class Server {
+public class Server implements Jsonable{
 
     @Column(name = "id")
     @Id
@@ -81,5 +83,13 @@ public class Server {
                 ", categories=" + categories +
                 ", members=" + members +
                 '}';
+    }
+
+    @Override
+    public JsonObjectBuilder toJson() {
+        return Json.createObjectBuilder()
+                .add("id", getId())
+                .add("name", getName())
+                .add("owner", getOwner().getId());
     }
 }

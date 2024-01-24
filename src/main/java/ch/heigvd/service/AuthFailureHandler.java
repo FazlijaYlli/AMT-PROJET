@@ -1,4 +1,4 @@
-package ch.heigvd.utilities;
+package ch.heigvd.service;
 
 import jakarta.annotation.Priority;
 import jakarta.ws.rs.Priorities;
@@ -23,7 +23,7 @@ public class AuthFailureHandler implements ExceptionMapper<AuthenticationFailedE
         return Response
                 .status(Response.Status.FORBIDDEN)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .entity(ApiResponse.error("Auth failed").build().toString())
+                .entity(API.createErrorResponse("Auth failed").toString())
                 .build();
     }
 }

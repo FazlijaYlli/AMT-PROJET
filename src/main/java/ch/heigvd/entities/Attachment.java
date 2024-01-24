@@ -1,10 +1,11 @@
 package ch.heigvd.entities;
 
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "attachment")
-public class Attachment {
+public class Attachment implements Jsonable {
 
     @Column(name = "id")
     @Id
@@ -51,5 +52,11 @@ public class Attachment {
                 ", url='" + url + '\'' +
                 ", message=" + message +
                 '}';
+    }
+
+    //TODO : implement toJson
+    @Override
+    public JsonObjectBuilder toJson() {
+        return null;
     }
 }

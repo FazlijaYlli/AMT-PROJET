@@ -5,7 +5,7 @@ import jakarta.json.JsonObject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("user")
+@Path("exemple")
 public class ExampleJson {
 
     @GET

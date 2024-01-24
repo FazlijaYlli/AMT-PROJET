@@ -1,5 +1,7 @@
 package ch.heigvd.entities;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 import java.util.LinkedList;
@@ -32,5 +34,13 @@ public class PrivateChannel extends Channel{
                 ", name='" + getName() + '\'' +
                 ", messages=" + getMessages() +
                 '}';
+    }
+
+
+    @Override
+    public JsonObjectBuilder toJson() {
+        return Json.createObjectBuilder()
+                .add("id", getId())
+                .add("name", getName());
     }
 }

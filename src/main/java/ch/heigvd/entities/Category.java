@@ -1,5 +1,7 @@
 package ch.heigvd.entities;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category implements Jsonable {
 
     @Column(name = "id")
     @Id
@@ -23,7 +25,8 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<ServerChannel> channelsInCategory = new ArrayList<>();
 
-    public Category() {}
+    public Category() {
+    }
 
     public Long getId() {
         return id;
@@ -65,5 +68,12 @@ public class Category {
                 ", server=" + server +
                 ", channelsInCategory=" + channelsInCategory +
                 '}';
+    }
+
+    @Override
+    public JsonObjectBuilder toJson() {
+        return Json.createObjectBuilder()
+                .add("id", id)
+                .add("name", name);
     }
 }

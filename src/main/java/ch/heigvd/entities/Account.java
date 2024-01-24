@@ -2,7 +2,6 @@ package ch.heigvd.entities;
 
 import io.quarkus.security.jpa.*;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
@@ -11,7 +10,7 @@ import java.util.*;
 @Entity
 @Table(name = "account")
 @UserDefinition
-public class Account {
+public class Account implements Jsonable {
     @Column(name = "id")
     @Id
     @GeneratedValue
@@ -129,7 +128,8 @@ public class Account {
                 '}';
     }
 
-    public JsonObjectBuilder toJsonObjectBuilder() {
+    @Override
+    public JsonObjectBuilder toJson() {
         return Json.createObjectBuilder()
                 .add("id", id)
                 .add("username", username)

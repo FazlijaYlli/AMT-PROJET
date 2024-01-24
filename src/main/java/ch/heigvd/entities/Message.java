@@ -1,5 +1,7 @@
 package ch.heigvd.entities;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -8,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "message")
-public class Message {
+public class Message implements Jsonable {
 
     @Column(name = "id")
     @Id
@@ -92,5 +94,14 @@ public class Message {
                 ", channel=" + channel +
                 ", attachments=" + attachments +
                 '}';
+    }
+
+    @Override
+    public JsonObjectBuilder toJson() {
+        return Json.createObjectBuilder()
+                .add("id", id)
+                .add("content", text)
+                .add("timestamp", timestamp.toString())
+                .add("author", author.getUsername());
     }
 }

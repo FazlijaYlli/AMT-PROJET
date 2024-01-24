@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "channel")
-public abstract class Channel {
+public abstract class Channel implements Jsonable {
 
     @Column(name = "id")
     @Id
@@ -55,4 +55,6 @@ public abstract class Channel {
                 ", messages=" + messages +
                 '}';
     }
+
+
 }

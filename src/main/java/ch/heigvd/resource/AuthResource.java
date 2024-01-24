@@ -1,7 +1,7 @@
 package ch.heigvd.resource;
 
 import ch.heigvd.entities.Account;
-import ch.heigvd.utilities.ApiResponse;
+import ch.heigvd.service.API;
 import io.quarkus.security.Authenticated;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -38,6 +38,7 @@ public class AuthResource {
     }
 
     //TODO: remove this
+    /*
     @GET
     @Path("me")
     @Authenticated()
@@ -45,6 +46,7 @@ public class AuthResource {
     public JsonObject me(@Context SecurityContext securityContext) {
         return ApiResponse.buildResponse(ApiResponse.success().add("user", ((Account)securityContext.getUserPrincipal()).toJsonObjectBuilder()));
     }
+    */
 
     //TODO: Implement register
     @POST
@@ -59,6 +61,12 @@ public class AuthResource {
 
         // TODO: Implement password hashing / hashing strategy
 
+
+        //check if parameters are not null
+        if(username == null || email == null || password == null || username.isEmpty() || email.isEmpty() || password.isEmpty()){
+            return API.createErrorResponse("Missing parameters");
+        }
+
         Account account = new Account();
         account.setUsername(username);
         account.setEmail(email);
@@ -66,8 +74,9 @@ public class AuthResource {
         entityManager.persist(account);
 
         if (account.getId() == null) {
-            return ApiResponse.buildResponse(ApiResponse.error("User not created"));
+            return API.createErrorResponse("Could not create account");
         }
-        return ApiResponse.buildResponse(ApiResponse.success().add("user", account.toJsonObjectBuilder()));
+
+        return API.createResponse("Account created", account);
     }
 }
