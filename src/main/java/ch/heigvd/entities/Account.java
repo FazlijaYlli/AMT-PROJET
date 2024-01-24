@@ -1,8 +1,6 @@
 package ch.heigvd.entities;
 
-import io.quarkus.security.jpa.Password;
-import io.quarkus.security.jpa.PasswordType;
-import io.quarkus.security.jpa.Username;
+import io.quarkus.security.jpa.*;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
@@ -12,6 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "account")
+@UserDefinition
 public class Account {
     @Column(name = "id")
     @Id
@@ -47,6 +46,9 @@ public class Account {
     @JoinTable(name = "account_privateChannel", joinColumns = @JoinColumn(name = "account_id"),
             inverseJoinColumns = @JoinColumn(name = "channel_id"))
     private List<PrivateChannel> directMessages = new ArrayList<>();
+
+    @Roles
+    private String role = "user";
 
     public Account() {}
 

@@ -7,6 +7,7 @@ import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkus.security.Authenticated;
 import io.smallrye.common.annotation.Blocking;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -21,6 +22,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.reactive.RestForm;
 
 @Path("users")
+@ApplicationScoped
 public class UserResource {
 
     @Inject
@@ -29,9 +31,9 @@ public class UserResource {
     @GET
     @Path("me")
     @Authenticated()
-    @Produces(MediaType.TEXT_PLAIN)
-    public String me(@Context SecurityContext securityContext) {
-        return securityContext.getUserPrincipal().getName();
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject me(@Context SecurityContext securityContext) {
+        return ApiResponse.buildResponse(ApiResponse.success().add("user", ((Account)securityContext.getUserPrincipal()).toJsonObjectBuilder()));
     }
 
     @POST
