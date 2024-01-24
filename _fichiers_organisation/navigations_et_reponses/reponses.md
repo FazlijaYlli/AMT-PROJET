@@ -132,16 +132,19 @@ Redirect to `/landing`
     "data": [
         {
             "id": 1,
-            "name": "server1"
+            "name": "server1",
+            "owner": "ownerId"
         },
         {
             "id": 2,
-            "name": "server2"
+            "name": "server2",
+            "owner": "ownerId"
         }
         ...
         {
             "id": 10,
-            "name": "server10"
+            "name": "server10",
+            "owner": "ownerId"
         }
     ]
 }
@@ -176,7 +179,8 @@ Form params
     "message": "Create server success",
     "data": {
         "id": 1,
-        "name": "createdServerName"
+        "name": "createdServerName",
+        "owner": "ownerId"
     }
 }
 ```
@@ -207,7 +211,8 @@ Form params
     "message": "Join server success",
     "data": {
         "id": 1,
-        "name": "joinedServerName"
+        "name": "joinedServerName",
+        "owner": "ownerId"
     }
 }
 ```
