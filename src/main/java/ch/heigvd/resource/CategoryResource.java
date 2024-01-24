@@ -37,9 +37,11 @@ public class CategoryResource {
     @Inject
     CategoryService categoryService;
 
-
     @Inject
     ServerChannelService channelService;
+
+    @Inject
+    MessageService messageService;
 
     @GET
     @Path("/{channelId:\\d+}")
@@ -48,7 +50,21 @@ public class CategoryResource {
     public JsonObject getChannel(@PathParam("channelId") Long channelId) {
         ServerChannel chan = channelService.get(channelId);
 
-        return API.createMessagesResponse("Channel info", chan);
+        return API.createMessagesResponse("Get channel success", chan);
+    }
+
+    @POST
+    @Path("/{channelId:\\d+}/post")
+    @Authenticated
+    @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
+    public JsonObject getChannel(@Context SecurityContext securityContext, @PathParam("channelId") Long channelId, @FormParam("text") String text) {
+        ServerChannel channel = channelService.get(channelId);
+        Account account = us.resolve(securityContext);
+
+        Message message = messageService.create(channel, account, text);
+
+        return API.createPostResponse("Send message success", message);
     }
 
     @POST
@@ -61,6 +77,8 @@ public class CategoryResource {
         
         ServerChannel channel = channelService.create(category, channelName);
 
-        return API.createResponse("Channel created", channel);
+        return API.createResponse("Create channel success", channel);
     }
+
+    
 }

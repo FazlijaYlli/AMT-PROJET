@@ -41,6 +41,14 @@ public class API {
     }
 
 
+
+    static public JsonObject createPostResponse(String successMessage, Message message) {
+        return API.success(successMessage)
+                .add("data", messageDisplay(message))
+                .build();
+    }
+
+
     static private JsonArrayBuilder serverList(List<Server> servers) {
         JsonArrayBuilder serverArray = Json.createArrayBuilder();
 
@@ -95,6 +103,17 @@ public class API {
         }
 
         dataObject.add("messages", messageArray);
+
+        return dataObject;
+    }
+
+    static private JsonObjectBuilder messageDisplay(Message message) {
+        JsonObjectBuilder dataObject = Json.createObjectBuilder();
+
+        dataObject.add("id", message.getId())
+                .add("content", message.getText())
+                .add("timestamp", message.getTimestamp().toString())
+                .add("author", message.getAuthor().getId());
 
         return dataObject;
     }

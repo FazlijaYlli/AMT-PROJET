@@ -443,3 +443,34 @@ Form params
 ```
 
 Redirect to GET `/server/{serverId}`
+
+## POST /send (Auth)
+
+Form params
+```POST form-param
+    text: "text"
+```
+
+### case 1: Error
+
+```json
+{
+    "status": 400,
+    "message": "Error, can't send message"
+}
+```
+
+### case 2: Success
+
+```json
+{
+    "status": 200,
+    "message": "Send message success",
+    "data": {
+        "id": 1,
+        "text": "messageContent",
+        "author": "authorId",
+        "timestamp": "unix-timestamp"
+    }
+}
+```
