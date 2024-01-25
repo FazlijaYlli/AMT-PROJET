@@ -3,7 +3,7 @@ package ch.heigvd.resource;
 import ch.heigvd.entities.Account;
 import ch.heigvd.service.API;
 import ch.heigvd.service.UserService;
-import io.quarkus.security.Authenticated;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.JsonObject;
@@ -78,12 +78,14 @@ public class AuthResource {
 
         // TODO: Check if username/email/password are ok
 
+
+
         // TODO: Implement password hashing / hashing strategy
 
         Account account = new Account();
         account.setUsername(username);
         account.setEmail(email);
-        account.setPassword(password);
+        account.setPassword(BcryptUtil.bcryptHash(password));
         account.setServers(Collections.emptyList());
         entityManager.persist(account);
 

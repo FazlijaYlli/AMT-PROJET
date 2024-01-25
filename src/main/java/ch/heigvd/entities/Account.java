@@ -29,7 +29,7 @@ public class Account implements Jsonable {
 
     @Column(name = "password")
     @Basic
-    @Password(value = PasswordType.CLEAR/*value = PasswordType.CUSTOM, provider = CustomPasswordProvider.class*/)
+    @Password(value = PasswordType.MCF)
     private String password;
 
     @Roles

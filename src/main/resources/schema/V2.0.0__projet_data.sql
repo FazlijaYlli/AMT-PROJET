@@ -1,8 +1,8 @@
 -- Insert mock data into account table
 INSERT INTO account (id, username, email, password) VALUES
-                                                        (1, 'user1', 'user1@example.com', 'password1'),
-                                                        (2, 'user2', 'user2@example.com', 'password2'),
-                                                        (3, 'user3', 'user3@example.com', 'password3');
+                                                        (1, 'user1', 'user1@example.com', '$2a$10$Kn2iOHTmVBJXFxy3ZFi3BOS7XVKwEmvv.6ZgnJg54BwhMPh53JLAK'),
+                                                        (2, 'user2', 'user2@example.com', '$2a$10$Kn2iOHTmVBJXFxy3ZFi3BOS7XVKwEmvv.6ZgnJg54BwhMPh53JLAK'),
+                                                        (3, 'user3', 'user3@example.com', '$2a$10$Kn2iOHTmVBJXFxy3ZFi3BOS7XVKwEmvv.6ZgnJg54BwhMPh53JLAK');
 
 
 -- Insert mock data into channel table
