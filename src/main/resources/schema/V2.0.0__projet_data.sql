@@ -53,3 +53,10 @@ INSERT INTO account_server (server_id, account_id) VALUES
                                                        (2, 2),
                                                        (3, 3);
 
+
+SELECT pg_catalog.setval('account_id_seq', 50, true);
+SELECT pg_catalog.setval('attachment_id_seq', 50, true);
+SELECT pg_catalog.setval('category_id_seq', 50, true);
+SELECT pg_catalog.setval('channel_id_seq', 50, true);
+SELECT pg_catalog.setval('message_id_seq', 50, true);
+SELECT pg_catalog.setval('server_id_seq', 50, true);
