@@ -21,7 +21,7 @@ public class Server implements Jsonable{
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "owner_id")
     private Account owner;
 
     @OneToMany(mappedBy = "server")

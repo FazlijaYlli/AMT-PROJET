@@ -32,6 +32,11 @@ public class Account implements Jsonable {
     @Password(value = PasswordType.CLEAR/*value = PasswordType.CUSTOM, provider = CustomPasswordProvider.class*/)
     private String password;
 
+    @Roles
+    @Basic
+    @Column(name = "role")
+    private String role = "user";
+
     @OneToMany(mappedBy = "author")
     private List<Message> messages = new ArrayList<>();
 
@@ -49,8 +54,6 @@ public class Account implements Jsonable {
             inverseJoinColumns = @JoinColumn(name = "channel_id"))
     private List<PrivateChannel> directMessages = new ArrayList<>();
 
-    @Roles
-    private String role = "user";
 
     public Account() {}
 
@@ -68,6 +71,14 @@ public class Account implements Jsonable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {

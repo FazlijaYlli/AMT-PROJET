@@ -24,7 +24,7 @@ public class ServerChannel extends Channel{
 
     @Override
     public String toString() {
-        return "PrivateChannel{" +
+        return "ServerChannel{" +
                 ", id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", messages=" + getMessages() +
