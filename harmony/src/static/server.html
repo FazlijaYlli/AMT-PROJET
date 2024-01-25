@@ -51,7 +51,7 @@
                         placeholder="type your message here..."
                         id="input"
                 />
-                <button onclick='sendMsg("1","1","1",document.getElementById("input").value)' class="bg-blue-400 rounded-full py-2 px-4 text-white font-semibold float-right mt-2">
+                <button onclick='sendMsg(server_id + "", current_category_id + "", current_channel_id + "", document.getElementById("input").value)' class="bg-blue-400 rounded-full py-2 px-4 text-white font-semibold float-right mt-2">
                     Send 
                 </button>
             </div>
@@ -76,7 +76,7 @@
 <!-- add a js script-->
 <script src="/static/script.js" type="text/javascript"></script>
 <script>
-    getServer(`${getCookie("server_id")}`);
+    
     document.cookie = "";
 
     function getCookie(cname) {
@@ -93,5 +93,56 @@
     }
     return "";
     }
+
+    const server_id = getCookie("server_id");
+
+    let current_category_id;
+    let current_channel_id;
+
+    getServer(server_id).then((res) => {
+        const data = res.data;
+        console.log(data);
+        document.getElementById("channel-area").innerHTML = "";
+        for (const category of data.categories) {
+            document.getElementById("channel-area").innerHTML += `
+            <div class="text-lg font-semibold">${category.name}</div>
+            `;
+            for (const channel of category.channels) {
+                document.getElementById("channel-area").innerHTML += `
+                <button onclick="displayChannel(${category.id}, ${channel.id})" class="flex flex-row py-4 px-2 justify-center items-center border-b-2 border-l-4 border-blue-400">
+                    <div class="w-full">
+                        <div class="text-lg font-semibold">#${channel.name}</div>
+                    </div>
+                </button>
+                `;
+            }
+        }
+
+        displayChannel(data.categories[0].id, data.categories[0].channels[0].id);
+    })
+
+    function displayChannel(category_id, channel_id) {
+        current_category_id = category_id;
+        current_channel_id = channel_id;
+        getChannel(server_id, category_id.toString(), channel_id.toString()).then((res) => {
+            const data = res.data;
+            console.log(data);
+            document.getElementById("message-area").innerHTML = "";
+            for (const message of data.messages) {
+                document.getElementById("message-area").innerHTML += `
+                <div class="flex justify-end mb-4">
+                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                        ${message.content}
+                    </div>
+                    <img src="./img/pfp_test2.jpg"
+                            class="object-cover h-8 w-8 rounded-full"
+                            alt="" />
+                </div>
+                `;
+            }
+        });
+    }
+
+    
 </script>
 </html>

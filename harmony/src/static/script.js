@@ -61,6 +61,7 @@ async function joinServer(serverId) {
 async function getServer(serverId) {
   let content = JSON.parse(await invoke("get_server", {server_id: serverId}));
   console.log(content);
+  return content;
 }
 
 async function createCategory() {
@@ -72,8 +73,9 @@ async function createCategory() {
 
 async function getChannel(serverId, categoryId, channelId) {
   // TODO : Get the correct channel ID from the click event
-  let content = await invoke("get_channel", { server_id: serverId, category_id: categorylId, channel_id: channelId });
+  let content = JSON.parse(await invoke("get_channel", { server_id: serverId, category_id: categoryId, channel_id: channelId }));
   console.log(content);
+  return content;
 }
 
 async function createChannel() {
