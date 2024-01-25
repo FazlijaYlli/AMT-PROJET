@@ -30,6 +30,7 @@ public class ServerChannelService {
                 FROM ServerChannel sc
                 LEFT JOIN sc.messages messages
                 WHERE sc.id = :id
+                ORDER BY messages.timestamp ASC
         """, ServerChannel.class).setParameter("id", channelId);
 
         return query.getSingleResult();
