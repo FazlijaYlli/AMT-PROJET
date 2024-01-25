@@ -285,7 +285,7 @@ async fn create_channel_request(server_id: &str, category_id: &str, channel_name
     let mut params = std::collections::HashMap::new();
     params.insert("categoryName", channel_name);
 
-    let request = CLIENT.request(reqwest::Method::GET,
+    let request = CLIENT.request(reqwest::Method::POST,
                                  URL.to_string()
                                      + "/server/" + server_id
                                      + "/category/" + category_id
@@ -344,7 +344,7 @@ async fn send_msg_request(server_id: &str, category_id: &str, channel_id: &str, 
     let mut params: std::collections::HashMap<&str, _> = std::collections::HashMap::new();
     params.insert("text", text);
 
-    let request = CLIENT.request(reqwest::Method::GET,
+    let request = CLIENT.request(reqwest::Method::POST,
                                  URL.to_string()
                                      + "/server/" + server_id
                                      + "/category/" + category_id
