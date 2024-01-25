@@ -443,7 +443,7 @@ Form params
 
 Redirect to GET `/server/{serverId}`
 
-## POST /send (Auth)
+## POST /{channelId}/send (Auth)
 
 Form params
 ```POST form-param

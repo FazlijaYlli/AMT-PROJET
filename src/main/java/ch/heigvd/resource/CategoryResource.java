@@ -54,7 +54,7 @@ public class CategoryResource {
     }
 
     @POST
-    @Path("/{channelId:\\d+}/post")
+    @Path("/{channelId:\\d+}/send")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public JsonObject postMessage(@Context SecurityContext securityContext, @PathParam("channelId") Long channelId, @FormParam("text") String text) {
