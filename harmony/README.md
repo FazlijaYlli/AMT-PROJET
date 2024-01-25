@@ -3,8 +3,9 @@
 This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
 
 ## Launching the web application
-1. Install the Tauri CLI : `cargo install create-tauri-app --locked`
-2. Launch : `cargo tauri dev`   
+1. Install the Tauri CLI step 1 : `cargo install create-tauri-app --locked`
+2. Install the Tauri CLI step 2 : `cargo install tauri-cli`
+3. Launch : `cargo tauri dev`   
 
 ## Recommended IDE Setup
 
