@@ -18,8 +18,6 @@ public class ServerService {
         TypedQuery<Server> query = em.createQuery("""
                 SELECT server
                 FROM Server server
-                JOIN server.categories cats
-                JOIN cats.channelsInCategory chans
         """, Server.class);
 
         return query.getResultList();

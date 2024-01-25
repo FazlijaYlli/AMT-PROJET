@@ -23,13 +23,13 @@ INSERT INTO server (id, name, owner_id) VALUES
 -- Insert mock data into category table
 INSERT INTO category (id, name, server_id) VALUES
                                                (1, 'Category 1', 1),
-                                               (2, 'Category 2', 1),
-                                               (3, 'Category 3', 2);
+                                               (2, 'Category 2', 2),
+                                               (3, 'Category 3', 3);
 -- Insert mock data into serverChannel table
 INSERT INTO serverChannel (channel_id, category_id) VALUES
                                                         (1, 1),
-                                                        (2, 1),
-                                                        (3, 2);
+                                                        (2, 2),
+                                                        (3, 3);
 
 -- Insert mock data into message table
 INSERT INTO message (id, text, author_id, timestamp, channel_id) VALUES
