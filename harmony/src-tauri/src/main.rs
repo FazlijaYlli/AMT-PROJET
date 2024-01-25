@@ -303,6 +303,65 @@ async fn create_channel_request(server_id: &str, category_id: &str, channel_name
 
 // END CREATE CHANNEL
 
+// ME FUNCTIONS
+
+#[tauri::command(rename_all = "snake_case")]
+fn get_me() -> String {
+    let response = get_me_request().unwrap();
+    response.into()
+}
+
+#[tokio::main]
+async fn get_me_request() -> Result<String, Box<dyn std::error::Error>> {
+    let request = CLIENT.request(reqwest::Method::GET, URL.to_string() + "/me");
+
+    let response = request.send().await?;
+
+    if response.status() == 200 {
+        let body = response.text().await?;
+        println!("{}", body);
+        return Ok(body)
+    } else {
+        return Err("".into())
+    }
+}
+
+// END ME FUNCTIONS
+
+// SEND FUNCTIONS
+
+#[tauri::command(rename_all = "snake_case")]
+fn send_msg(server_id: &str, category_id: &str, channel_id: &str, text: &str) -> String {
+    let response = send_msg_request(server_id, category_id, channel_id, text).unwrap();
+    response.into()
+}
+
+#[tokio::main]
+async fn send_msg_request(server_id: &str, category_id: &str, channel_id: &str, text: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
+
+    let mut params: std::collections::HashMap<&str, _> = std::collections::HashMap::new();
+    params.insert("text", text);
+
+    let request = CLIENT.request(reqwest::Method::GET,
+                                 URL.to_string()
+                                     + "/server/" + server_id
+                                     + "/category/" + category_id
+                                     + "/channel/" + channel_id + "/send")
+        .headers(headers)
+        .form(&params);
+
+    let response = request.send().await?;
+    let body = response.text().await?;
+
+    println!("{}", body);
+
+    Ok(body)
+}
+
+// END SEND FUNCTIONS
+
 fn main() {    tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             greet,
@@ -315,7 +374,9 @@ fn main() {    tauri::Builder::default()
             create_category,
             get_channel,
             create_channel,
-            logout
+            logout,
+            get_me,
+            send_msg
           ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

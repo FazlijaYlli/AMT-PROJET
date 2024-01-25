@@ -1,8 +1,5 @@
 const { invoke } = window.__TAURI__.tauri
 
-let greetInputEl;
-let greetMsgEl;
-
 async function register() {
   const username = document.getElementById("username").value;
   const email = document.getElementById("email").value;
@@ -18,6 +15,7 @@ async function login() {
   const password = document.getElementById("password").value;
   let content = await invoke("login", { email: email, password: password});
   console.log(content);
+  window.location.replace("../index.html");
 }
 
 async function listServers() {
@@ -27,7 +25,6 @@ async function listServers() {
   const list = document.getElementById("server-list");
   list.innerHTML = "";
 
-  // Foreach doesn't work ??????
   content.data.forEach(element => {
     let li = document.createElement("li");
     li.innerHTML = `
@@ -38,7 +35,7 @@ async function listServers() {
                 <p class="font-light text-xl">${element.owner}</p>
             </div>
         </div>
-        <button onclick=getServer("${element.id}") class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
+        <button onclick=joinServer("${element.id}") class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
     </div>`;
     li.style.listStyle = "none";
     list.appendChild(li);
@@ -53,15 +50,14 @@ async function createServer() {
   console.log(content);
 }
 
-async function joinServer() {
-  const serverId = document.getElementById("server-id").value;
+async function joinServer(serverId) {
   let content = await invoke("join_server", { server_id: serverId });
   console.log(content);
+  window.location.replace("server.html?id=1");
 }
 
 async function getServer(serverId) {
-  let content = await invoke("get_server", {server_id: serverId});
-  window.location.replace("server.html");
+  let content = JSON.parse(await invoke("get_server", {server_id: serverId}));
   console.log(content);
 }
 
@@ -72,11 +68,8 @@ async function createCategory() {
   console.log(content);
 }
 
-async function getChannel() {
+async function getChannel(serverId, categoryId, channelId) {
   // TODO : Get the correct channel ID from the click event
-  const serverId = document.getElementById("server-id").value;
-  const categorylId = document.getElementById("category-id").value;
-  const channelId = document.getElementById("channel-id").value;
   let content = await invoke("get_channel", { server_id: serverId, category_id: categorylId, channel_id: channelId });
   console.log(content);
 }
@@ -94,6 +87,24 @@ async function logout() {
   let content = await invoke("logout");
   console.log(content);
 }
+
+async function getMe() {
+  let content = await invoke("get_me");
+  console.log(content);
+}
+
+async function sendMsg(serverId, categoryId, channelId, text) {
+  let content = await invoke("send_msg", {
+      server_id: serverId, 
+      category_id: categoryId, 
+      channel_id: channelId, 
+      text: text}
+  );
+  console.log(content);
+
+  addMessage("./img/foot.jpg", text);
+}
+
 
 function changeChannel(channel_id) {
   // TODO : clear the message area and load the messages stored in the channel using the ID.
