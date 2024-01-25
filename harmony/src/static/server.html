@@ -115,6 +115,7 @@
             const data = res.data;
             console.log(data);
             document.getElementById("message-area").innerHTML = "";
+            data.messages.sort((a, b) => a.timestamp - b.timestamp);
             for (const message of data.messages) {
                 addMessage("/static/img/pfp_test2.jpg", message);
             }
