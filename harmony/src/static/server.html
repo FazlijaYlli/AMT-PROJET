@@ -111,15 +111,7 @@
             console.log(data);
             document.getElementById("message-area").innerHTML = "";
             for (const message of data.messages) {
-                document.getElementById("message-area").innerHTML += `
-                <div class="flex justify-end mb-4">
-                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        <div class="font-semibold">${message.author}</div>
-                        <div>${message.content}</div>
-                    </div>
-                    <img src="./img/pfp_test2.jpg" class="object-cover h-8 w-8 rounded-full self-end" alt="" />
-                </div>
-                `;
+                addMessage("/static/img/pfp_test2.jpg", message);
             }
         });
     }

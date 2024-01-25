@@ -113,25 +113,21 @@ async function sendMsg(serverId, categoryId, channelId, text) {
 
     if (content.status == "200") {
         document.getElementById("input").value = "";
-        addMessage("./img/foot.jpg", text);
+        addMessage("/static/img/pfp_test2.jpg", content.data);
     }
 }
 
-
-function changeChannel(channel_id) {
-    // TODO : clear the message area and load the messages stored in the channel using the ID.
-}
-
-function addMessage(img_link, content) {
+function addMessage(img_link, message) {
     // TODO : Send the message to the server and only show to message if a success response is received.
-    messageArea = document.querySelector("#message-area");
+    const messageArea = document.querySelector("#message-area");
     let element = document.createElement("div")
     element.innerHTML = `
-  <div class="flex justify-end mb-4">
-    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-      ${content}
-    </div>
-    <img src="${img_link}" class="object-cover h-8 w-8 rounded-full" alt="" />
-  </div>`
+    <div class="flex justify-end mb-4">
+        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+            <div class="font-semibold">${message.author}</div>
+            <div>${message.content}</div>
+        </div>
+        <img src="${img_link}" class="object-cover h-8 w-8 rounded-full self-end" alt="" />
+    </div>`;
     messageArea.appendChild(element);
 }
