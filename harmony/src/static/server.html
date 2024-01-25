@@ -59,8 +59,6 @@
 <script src="/static/script.js" type="text/javascript"></script>
 <script>
 
-    document.cookie = "";
-
     function getCookie(cname) {
         let name = cname + "=";
         let ca = document.cookie.split(';');
@@ -77,6 +75,7 @@
     }
 
     const server_id = getCookie("server_id");
+    document.cookie = "";
 
     let current_category_id;
     let current_channel_id;
@@ -102,7 +101,7 @@
         }
 
         displayChannel(data.categories[0].id, data.categories[0].channels[0].id);
-    })
+    });
 
     function displayChannel(category_id, channel_id) {
         current_category_id = category_id;

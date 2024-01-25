@@ -149,9 +149,9 @@ public class ServersResource {
 
         server.setCategories(List.of(category));
 
-        entityManager.persist(channel);
-        entityManager.persist(category);
         entityManager.persist(server);
+        entityManager.persist(category);
+        entityManager.persist(channel);
 
         String successMessage = "Server created successfully";
 

@@ -47,8 +47,12 @@ async function listServers() {
 
 async function createServer() {
     const serverName = document.getElementById("server-name").value;
-    let content = await invoke("create_server", { server_name: serverName });
+    let content = JSON.parse(await invoke("create_server", { server_name: serverName }));
     console.log(content);
+
+    if (content.status == "200") {
+        listServers();
+    }
 }
 
 async function joinServer(serverId) {
