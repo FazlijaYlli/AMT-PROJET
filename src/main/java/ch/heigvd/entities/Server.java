@@ -12,9 +12,9 @@ import java.util.List;
 @Table(name = "server")
 public class Server implements Jsonable{
 
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

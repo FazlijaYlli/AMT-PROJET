@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "privateChannel")
+@PrimaryKeyJoinColumn(name = "channel_id")
 public class PrivateChannel extends Channel{
 
     @ManyToMany(fetch = FetchType.LAZY)

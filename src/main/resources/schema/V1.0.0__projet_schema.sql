@@ -78,7 +78,7 @@ ALTER TABLE public.account OWNER TO postgres;
 CREATE TABLE server (
     id serial NOT NULL,
     name varchar(45) NOT NULL,
-    owner_id integer NOT NULL
+    owner_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY server
@@ -99,7 +99,7 @@ ALTER TABLE public.server OWNER TO postgres;
 CREATE TABLE category (
     id serial NOT NULL,
     name varchar(45) NOT NULL,
-    server_id integer NOT NULL
+    server_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY category
@@ -130,7 +130,7 @@ ALTER TABLE public.channel OWNER TO postgres;
 --
 
 CREATE TABLE privateChannel (
-    channel_id integer NOT NULL
+    channel_id bigint NOT NULL
 );
 
 ALTER TABLE privateChannel
@@ -145,8 +145,8 @@ ALTER TABLE public.privateChannel OWNER TO postgres;
 --
 
 CREATE TABLE serverChannel (
-    channel_id integer NOT NULL,
-    category_id integer NOT NULL
+    channel_id bigint NOT NULL,
+    category_id bigint NOT NULL
 );
 
 ALTER TABLE serverChannel
@@ -163,9 +163,9 @@ ALTER TABLE public.serverChannel OWNER TO postgres;
 CREATE TABLE message (
     id serial NOT NULL,
     text text NOT NULL,
-    author_id integer NOT NULL,
+    author_id bigint NOT NULL,
     timestamp timestamp NOT NULL,
-    channel_id integer NOT NULL
+    channel_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY message
@@ -187,7 +187,7 @@ ALTER TABLE public.message OWNER TO postgres;
 CREATE TABLE attachment (
     id serial NOT NULL,
     url text NOT NULL,
-    message_id integer NOT NULL
+    message_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY attachment
@@ -201,8 +201,8 @@ ALTER TABLE public.attachment OWNER TO postgres;
 
 
 CREATE TABLE account_server (
-    server_id integer NOT NULL,
-    account_id integer NOT NULL
+    server_id bigint NOT NULL,
+    account_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY account_server
@@ -217,8 +217,8 @@ ALTER TABLE public.account_server OWNER TO postgres;
 --
 
 CREATE TABLE account_privateChannel (
-    channel_id integer NOT NULL,
-    account_id integer NOT NULL
+    channel_id bigint NOT NULL,
+    account_id bigint NOT NULL
 );
 
 ALTER TABLE ONLY account_privateChannel

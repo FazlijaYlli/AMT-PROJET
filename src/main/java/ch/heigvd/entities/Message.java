@@ -4,7 +4,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +12,16 @@ import java.util.List;
 @Table(name = "message")
 public class Message implements Jsonable {
 
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "text")
     private String text;
 
     @Column(name = "timestamp")
-    private Date timestamp;
+    private Timestamp timestamp;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
@@ -60,11 +60,11 @@ public class Message implements Jsonable {
         this.author = author;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

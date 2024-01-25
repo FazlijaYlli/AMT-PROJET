@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "serverChannel")
+@PrimaryKeyJoinColumn(name = "channel_id")
 public class ServerChannel extends Channel{
 
     @ManyToOne

@@ -14,9 +14,9 @@ import java.util.*;
 @Table(name = "account")
 @UserDefinition
 public class Account implements Jsonable {
-    @Column(name = "id")
+    @Column(name = "id", columnDefinition = "serial")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -33,9 +33,8 @@ public class Account implements Jsonable {
     private String password;
 
     @Roles
-    @Basic
-    @Column(name = "role")
-    private String role = "user";
+    @Transient
+    public String role = "user";
 
     @OneToMany(mappedBy = "author")
     private List<Message> messages = new ArrayList<>();

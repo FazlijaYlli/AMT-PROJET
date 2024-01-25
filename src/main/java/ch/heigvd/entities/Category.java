@@ -10,10 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 public class Category implements Jsonable {
-
-    @Column(name = "id")
+    
+    @Column(name = "id", columnDefinition = "serial")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

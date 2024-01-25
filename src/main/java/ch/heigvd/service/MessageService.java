@@ -19,7 +19,7 @@ public class MessageService {
         message.setText(text);
         message.setChannel(channel);
         message.setAuthor(author);
-        message.setTimestamp(new java.sql.Date(System.currentTimeMillis()));
+        message.setTimestamp(new java.sql.Timestamp(System.currentTimeMillis()));
 
         em.persist(message);
 
