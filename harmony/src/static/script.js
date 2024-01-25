@@ -98,15 +98,18 @@ async function getMe() {
 }
 
 async function sendMsg(serverId, categoryId, channelId, text) {
-  let content = await invoke("send_msg", {
+  let content = JSON.parse(await invoke("send_msg", {
       server_id: serverId, 
       category_id: categoryId, 
       channel_id: channelId, 
       text: text}
-  );
+  ));
   console.log(content);
 
-  addMessage("./img/foot.jpg", text);
+  if (content.status == "200") {
+    document.getElementById("input").value = "";
+    addMessage("./img/foot.jpg", text);
+  }
 }
 
 

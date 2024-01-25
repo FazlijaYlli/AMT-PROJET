@@ -12,15 +12,11 @@
 <a href="/index.html">Go back</a>
 <div class="container mx-auto shadow-lg rounded-lg mt-20">
     <!-- Header -->
-    <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
-        <div class="font-semibold text-2xl">Harmony</div>
-        <div class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
-            PFP
-        </div>
+    <div class="px-5 py-5 flex items-center bg-white border-b-2">
+        <div class="font-semibold text-2xl mr-3">Harmony</div>
+        <div class="font-light text-2xl" id="title-server"></div>
     </div>
-    <!-- End Header -->
-
-    <button onclick='getServer()'>GET SERVER</button>
+    <!-- End Header --> 
     <!-- Chat-->
     <div class="flex flex-row justify-between bg-white">
         <!-- Channel list -->
@@ -57,19 +53,6 @@
             </div>
         </div>
         <!-- End messaging area -->
-        <!-- Channel description -->
-        <div class="w-2/5 border-l-2 px-5">
-            <div class="flex flex-col">
-                <div class="font-semibold text-xl py-4">#channel-3</div>
-                <img
-                        src="./img/foot.jpg"
-                        class="object-cover rounded-xl h-64"
-                        alt=""
-                />
-                <div class="font-semibold py-4">Description du channel 3. Discussions TEKKEN only.</div>
-            </div>
-        </div>
-        <!-- End channel description -->
     </div>
 </div>
 </body>
@@ -102,6 +85,7 @@
     getServer(server_id).then((res) => {
         const data = res.data;
         console.log(data);
+        document.getElementById("title-server").innerHTML = data.name;
         document.getElementById("channel-area").innerHTML = "";
         for (const category of data.categories) {
             document.getElementById("channel-area").innerHTML += `
