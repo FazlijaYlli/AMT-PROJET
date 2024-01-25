@@ -53,7 +53,8 @@ async function createServer() {
 async function joinServer(serverId) {
   let content = await invoke("join_server", { server_id: serverId });
   console.log(content);
-  window.location.replace("server.html?id=1");
+  document.cookie = "server_id=" + serverId;
+  window.location.href = "server.html";
 }
 
 async function getServer(serverId) {
