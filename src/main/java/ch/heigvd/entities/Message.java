@@ -101,7 +101,7 @@ public class Message implements Jsonable {
         return Json.createObjectBuilder()
                 .add("id", id)
                 .add("content", text)
-                .add("timestamp", timestamp.toString())
+                .add("timestamp", timestamp.getTime())
                 .add("author", author.getUsername());
     }
 }

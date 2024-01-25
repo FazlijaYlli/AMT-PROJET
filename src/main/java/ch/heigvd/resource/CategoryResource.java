@@ -63,7 +63,7 @@ public class CategoryResource {
 
         Message message = messageService.create(channel, account, text);
 
-        return API.createPostResponse("Send message success", message);
+        return API.createResponse("Send message success", message);
     }
 
     @POST
