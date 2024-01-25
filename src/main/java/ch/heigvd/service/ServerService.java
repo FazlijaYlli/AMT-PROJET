@@ -32,6 +32,6 @@ public class ServerService {
                 WHERE server.id = :id
         """, Server.class).setParameter("id", id);
 
-        return query.getSingleResult();
+        return query.getResultList().get(0);
     }
 }

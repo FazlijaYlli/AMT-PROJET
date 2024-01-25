@@ -84,14 +84,11 @@ public class ServersResource {
         }
 
         // verify if server exists
-        Query query = entityManager.createQuery("SELECT s FROM Server s WHERE s.id = :id");
-        query.setParameter("id", Long.parseLong(serverId));
+        Server server = serverService.get(Long.parseLong(serverId));
 
-        if (query.getResultList().size() != 1){
+        if (server == null) {
             return API.createErrorResponse("Server does not exist");
         }
-
-        Server server = (Server) query.getSingleResult();
 
         Account user = us.resolve(securityContext);
 
