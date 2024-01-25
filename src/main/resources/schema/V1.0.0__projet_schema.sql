@@ -63,14 +63,13 @@ CREATE TABLE account (
     id serial NOT NULL,
     username varchar(45) NOT NULL,
     email varchar(255) NOT NULL,
-    password varchar(80)
+    password varchar(80) NOT NULL
 );
 
 ALTER TABLE ONLY account
     ADD CONSTRAINT pk_account PRIMARY KEY (id);
 
 ALTER TABLE public.account OWNER TO postgres;
-
 
 --
 -- Name: server; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -115,11 +114,6 @@ ALTER TABLE public.category OWNER TO postgres;
 -- Name: Channel; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
 CREATE TABLE channel (
     id serial NOT NULL,
     name varchar(45) NOT NULL
@@ -135,12 +129,7 @@ ALTER TABLE public.channel OWNER TO postgres;
 -- Name: PrivateChannel; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
-
---ALTER TABLE public.privateChannel_id_seq OWNER TO postgres;
-
-
 CREATE TABLE privateChannel (
-    --privateChannel_id integer DEFAULT nextval('privateChannel_id_seq'::regclass) NOT NULL,
     channel_id integer NOT NULL
 );
 
@@ -155,11 +144,7 @@ ALTER TABLE public.privateChannel OWNER TO postgres;
 -- Name: ServerChannel; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
 
---ALTER TABLE public.serverChannel_id_seq OWNER TO postgres;
-
-
 CREATE TABLE serverChannel (
-    --serverChannel_id integer DEFAULT nextval('serverChannel_id_seq'::regclass) NOT NULL,
     channel_id integer NOT NULL,
     category_id integer NOT NULL
 );
@@ -198,7 +183,6 @@ ALTER TABLE public.message OWNER TO postgres;
 --
 -- Name: attachment; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
 --
-
 
 CREATE TABLE attachment (
     id serial NOT NULL,
@@ -245,88 +229,6 @@ ALTER TABLE account_privateChannel
     ADD CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES account (id);
 
 ALTER TABLE public.account_privateChannel OWNER TO postgres;
-
--- Reset sequences to the correct id
-
--- Disable triggers before the copy
-ALTER TABLE account DISABLE TRIGGER ALL;
-ALTER TABLE category DISABLE TRIGGER ALL;
-ALTER TABLE channel DISABLE TRIGGER ALL;
-ALTER TABLE server DISABLE TRIGGER ALL;
-ALTER TABLE serverChannel DISABLE TRIGGER ALL;
-ALTER TABLE message DISABLE TRIGGER ALL;
-ALTER TABLE attachment DISABLE TRIGGER ALL;
-ALTER TABLE account_server DISABLE TRIGGER ALL;
-
--- Insert mock data into account table
-COPY account (id, username, email, password) FROM stdin (DELIMITER ',');
-1,user1,user1@example.com,password1
-2,user2,user2@example.com,password2
-3,user3,user3@example.com,password3
-\.
-
--- Insert mock data into category table
-COPY category (id, name, server_id) FROM stdin (DELIMITER ',');
-1,Category 1,1
-2,Category 2,1
-3,Category 3,1
-\.
-
--- Insert mock data into channel table
-COPY channel (id, name) FROM stdin (DELIMITER ',');
-1,General
-2,Random
-3,Announcements
-\.
-
--- Insert mock data into server table
-COPY server (id, name, owner_id) FROM stdin (DELIMITER ',');
-1,Server 1,1
-2,Server 2,2
-3,Server 3,3
-\.
-
--- Insert mock data into serverChannel table
-COPY serverChannel (channel_id, category_id) FROM stdin (DELIMITER ',');
-1,1
-2,1
-3,2
-\.
-
--- Insert mock data into message table
-COPY message (id, text, author_id, timestamp, channel_id) FROM stdin (DELIMITER ',');
-1,Hello everyone!,1,2024-01-24 12:00:00,1
-2,How are you doing,2,2024-01-24 12:05:00,1
-3,Welcome to the server!,3,2024-01-24 12:10:00,2
-4,Any plans for the weekend?,1,2024-01-24 12:15:00,2
-5,Important announcement!,2,2024-01-24 12:20:00,3
-6,Let''s discuss the upcoming events.,3,2024-01-24 12:25:00,3
-\.
-
--- Insert mock data into attachment table
-COPY attachment (id, url, message_id) FROM stdin (DELIMITER ',');
-1,http://example.com/attachment1,1
-2,http://example.com/attachment2,2
-3,http://example.com/attachment3,3
-\.
-
--- Insert mock data into account_server table
-COPY account_server (server_id, account_id) FROM stdin (DELIMITER ',');
-1,1
-1,2
-2,2
-3,3
-\.
-
--- Enable triggers after the copy
-ALTER TABLE account ENABLE TRIGGER ALL;
-ALTER TABLE category ENABLE TRIGGER ALL;
-ALTER TABLE channel ENABLE TRIGGER ALL;
-ALTER TABLE server ENABLE TRIGGER ALL;
-ALTER TABLE serverChannel ENABLE TRIGGER ALL;
-ALTER TABLE message ENABLE TRIGGER ALL;
-ALTER TABLE attachment ENABLE TRIGGER ALL;
-ALTER TABLE account_server ENABLE TRIGGER ALL;
 
 
 --
