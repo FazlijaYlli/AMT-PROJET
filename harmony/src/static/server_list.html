@@ -7,7 +7,7 @@
     <title>Chatroom</title>
 </head>
 <body>
-    <div class="container mx-auto shadow-lg rounded-lg mt-20">
+    <div class="container mx-auto shadow-lg rounded-lg mt-20 pb-1">
         <!-- Header -->
         <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
             <div>
@@ -23,10 +23,10 @@
         <p class="font-semibold border-b pb-4 border-gray-200 m-4 mb-2 text-xl">Servers detected</p>
         <div id="server-list" class="flex-col">
         </div>
-        <div class="m-4">
-            <label for="server-name">Nom du serveur : </label>
-            <input class="border border-gray-200" type="text" id="server-name">
-            <button onclick="createServer()" class="m-4 mt-0 bg-blue-500 rounded font-semibold text-white pl-4 pr-4">Create Server !</button>
+        <div class="m-4 flex justify-between items-stretch h-12 gap-2">
+            <label class="font-semibold self-center" for="server-name">Server name</label>
+            <input class="shadow appearance-none border rounded text-gray-700 leading-tight h-12 grow" type="text" id="server-name">
+            <button onclick="createServer()" class="bg-blue-500 rounded font-semibold text-white pl-4 pr-4">Create</button>
         </div>
     </div>
 </body>
