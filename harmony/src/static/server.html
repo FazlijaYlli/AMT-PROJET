@@ -1,80 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Chatroom</title>
 </head>
+
 <body class="bg-slate-200">
-<!-- component -->
-<!-- This is an example component -->
-<a href="/index.html">Go back</a>
-<div class="container mx-auto shadow-lg rounded-lg mt-20">
-    <!-- Header -->
-    <div class="px-5 py-5 flex items-center bg-white border-b-2">
-        <div class="font-semibold text-2xl mr-3">Harmony</div>
-        <div class="font-light text-2xl" id="title-server"></div>
-    </div>
-    <!-- End Header --> 
-    <!-- Chat-->
-    <div class="flex flex-row justify-between bg-white">
-        <!-- Channel list -->
-        <div id="channel-area" class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
-            <button onclick="getChannel()" class="flex flex-row py-4 px-2 justify-center items-center border-b-2 border-l-4 border-blue-400">
-                <div class="w-full">
-                    <div class="text-lg font-semibold">#channel-1</div>
-                </div>
-            </button>
+    <!-- component -->
+    <!-- This is an example component -->
+    <a href="/index.html">Go back</a>
+    <div class="container mx-auto shadow-lg rounded-lg mt-20">
+        <!-- Header -->
+        <div class="px-5 py-5 flex items-center bg-white border-b-2">
+            <div class="font-semibold text-2xl mr-3">Harmony</div>
+            <div class="font-light text-2xl" id="title-server"></div>
         </div>
-        <!-- Channel list -->
-        <!-- Messaging area -->
-        <div class="w-full px-5 flex flex-col justify-between">
-            <div id="message-area" class="flex flex-col mt-5">
-                <div class="flex justify-end mb-4">
-                    <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        Welcome to group everyone. ⚽.
+        <!-- End Header -->
+        <!-- Chat-->
+        <div class="flex flex-row justify-between bg-white">
+            <!-- Channel list -->
+            <div id="channel-area" class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+                <button onclick="getChannel()"
+                    class="flex flex-row py-4 px-2 justify-center items-center border-b-2 border-l-4 border-blue-400">
+                    <div class="w-full">
+                        <div class="text-lg font-semibold">#channel-1</div>
                     </div>
-                    <img src="./img/pfp_test2.jpg"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt="" />
-                </div>
-            </div>
-            <div class="py-5">
-                <input
-                        class="w-full bg-gray-300 py-5 px-3 rounded-xl"
-                        type="text"
-                        placeholder="type your message here..."
-                        id="input"
-                />
-                <button onclick='sendMsg(server_id + "", current_category_id + "", current_channel_id + "", document.getElementById("input").value)' class="bg-blue-400 rounded-full py-2 px-4 text-white font-semibold float-right mt-2">
-                    Send 
                 </button>
             </div>
+            <!-- Channel list -->
+            <!-- Messaging area -->
+            <div class="w-full px-5 flex flex-col justify-between">
+                <div id="message-area" class="flex flex-col mt-5">
+                    <div class="flex justify-end mb-4">
+                        <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+                            Welcome to group everyone. ⚽.
+                        </div>
+                        <img src="./img/pfp_test2.jpg" class="object-cover h-8 w-8 rounded-full" alt="" />
+                    </div>
+                </div>
+                <div class="py-5">
+                    <input class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text"
+                        placeholder="type your message here..." id="input" />
+                    <button
+                        onclick='sendMsg(server_id + "", current_category_id + "", current_channel_id + "", document.getElementById("input").value)'
+                        class="bg-blue-400 rounded-full py-2 px-4 text-white font-semibold float-right mt-2">
+                        Send
+                    </button>
+                </div>
+            </div>
+            <!-- End messaging area -->
         </div>
-        <!-- End messaging area -->
     </div>
-</div>
 </body>
 <!-- add a js script-->
 <script src="/static/script.js" type="text/javascript"></script>
 <script>
-    
+
     document.cookie = "";
 
     function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-        c = c.substring(1);
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
         }
-        if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-        }
-    }
-    return "";
+        return "";
     }
 
     const server_id = getCookie("server_id");
@@ -118,15 +117,14 @@
                     <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
                         ${message.content}
                     </div>
-                    <img src="./img/pfp_test2.jpg"
-                            class="object-cover h-8 w-8 rounded-full"
-                            alt="" />
+                    <img src="./img/pfp_test2.jpg" class="object-cover h-8 w-8 rounded-full" alt="" />
                 </div>
                 `;
             }
         });
     }
 
-    
+
 </script>
+
 </html>

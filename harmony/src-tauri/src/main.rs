@@ -40,7 +40,7 @@ async fn register_request(username: &str, email: &str, password: &str, password_
     params.insert("password", password);
     params.insert("password_confirm", password_confirm);
 
-    let request = client.request(reqwest::Method::POST, URL.to_string()+"/register")
+    let request = client.request(reqwest::Method::POST, URL.to_string() + "/register")
         .headers(headers)
         .form(&params);
 
@@ -70,7 +70,7 @@ async fn login_request(email: &str, password: &str) -> Result<(), Box<dyn std::e
     params.insert("email", email);
     params.insert("password", password);
 
-    let request = (*CLIENT).request(reqwest::Method::POST, URL.to_string()+"/login")
+    let request = (*CLIENT).request(reqwest::Method::POST, URL.to_string() + "/login")
         .headers(headers)
         .form(&params);
 
@@ -225,7 +225,7 @@ async fn create_category_request(server_id: &str, category_name: &str) -> Result
 
     let mut params = std::collections::HashMap::new();
     params.insert("categoryName", category_name);
-    
+
     // Put correct URL post
     let request = CLIENT.request(reqwest::Method::POST, URL.to_string() + "/server/" + server_id + "/category/create")
         .headers(headers)
@@ -320,9 +320,9 @@ async fn get_me_request() -> Result<String, Box<dyn std::error::Error>> {
     if response.status() == 200 {
         let body = response.text().await?;
         println!("{}", body);
-        return Ok(body)
+        return Ok(body);
     } else {
-        return Err("".into())
+        return Err("".into());
     }
 }
 
@@ -362,7 +362,8 @@ async fn send_msg_request(server_id: &str, category_id: &str, channel_id: &str, 
 
 // END SEND FUNCTIONS
 
-fn main() {    tauri::Builder::default()
+fn main() {
+    tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             greet,
             register,
