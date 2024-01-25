@@ -33,7 +33,6 @@ public class AuthResource {
 
     @POST
     @Path("logout")
-    @Authenticated
     public Response logout() {
         final NewCookie removeCookie = new NewCookie.Builder(cookieName)
                 .maxAge(0)
@@ -43,12 +42,15 @@ public class AuthResource {
         return Response.noContent().cookie(removeCookie).build();
     }
 
-    //TODO: remove this
+
     @GET
     @Path("me")
-    @Authenticated()
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject me(@Context SecurityContext securityContext) {
+
+        if (securityContext.getUserPrincipal() == null) {
+            return API.createErrorResponse("Not logged in");
+        }
 
         return API.createResponse("Me :3 WuW", us.resolve(securityContext));
     }
