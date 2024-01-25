@@ -8,6 +8,7 @@ async function register() {
 
   let content = await invoke("register", { username: username, email: email, password: password, password_confirm: passwordConfirm });
   console.log(content);
+  window.location.replace("/static/login.html");
 }
 
 async function login() {
@@ -15,7 +16,7 @@ async function login() {
   const password = document.getElementById("password").value;
   let content = await invoke("login", { email: email, password: password});
   console.log(content);
-  window.location.replace("../index.html");
+  window.location.replace("/index.html");
 }
 
 async function listServers() {
