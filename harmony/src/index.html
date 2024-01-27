@@ -37,9 +37,11 @@
         const content = getMe().then((result) => {
             if (result) {
                 const json = JSON.parse(result);
-                console.log();
-                document.getElementById("username-label").style.display = "block";
-                document.getElementById("username-header").innerHTML = json.data.username;
+                if (json.status === "200") {
+                    console.log(json);
+                    document.getElementById("username-label").style.display = "block";
+                    document.getElementById("username-header").innerHTML = json.data.username;
+                }
             }
         });
     </script>

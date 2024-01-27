@@ -52,7 +52,7 @@ async function listServers() {
         <div class="mt-auto mb-auto pb-3">
             <div class="m-2 ml-7">
                 <p class="font-semibold text-xl">${element.name}</p>
-                <p class="font-light text-xl">${element.owner}</p>
+                <p class="font-light text-xl">Owner ID : ${element.owner}</p>
             </div>
         </div>
         <button onclick=joinServer("${element.id}") class="m-4 mb-auto mt-auto bg-blue-500 rounded font-semibold text-white h-8 pl-4 pr-4">Join</button>
