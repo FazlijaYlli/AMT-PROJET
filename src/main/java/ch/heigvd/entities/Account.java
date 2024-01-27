@@ -145,8 +145,7 @@ public class Account implements Jsonable {
     public JsonObjectBuilder toJson() {
         return Json.createObjectBuilder()
                 .add("id", id)
-                .add("username", username)
-                .add("email", email);
+                .add("username", username);
     }
 
     static class CustomPasswordProvider implements PasswordProvider {

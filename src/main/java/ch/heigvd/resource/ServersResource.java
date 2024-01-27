@@ -112,8 +112,6 @@ public class ServersResource {
         return API.createResponse(successMessage, server);
     }
 
-
-
     @POST
     @Path("create")
     @Transactional
@@ -130,28 +128,7 @@ public class ServersResource {
         Account owner = us.resolve(securityContext);
 
         // create server
-        Server server = new Server();
-        server.setName(serverName);
-        server.setOwner(owner);
-        server.setMembers(List.of(owner));
-
-        ServerChannel channel = new ServerChannel();
-        channel.setName("General");
-        channel.setMessages(Collections.emptyList());
-
-        Category category = new Category();
-        category.setName("General");
-        category.setServer(server);
-        category.setChannelsInCategory(List.of());
-
-        category.setChannelsInCategory(List.of(channel));
-        channel.setCategory(category);
-
-        server.setCategories(List.of(category));
-
-        entityManager.persist(server);
-        entityManager.persist(category);
-        entityManager.persist(channel);
+        Server server = serverService.createServer(serverName, owner);
 
         String successMessage = "Server created successfully";
 

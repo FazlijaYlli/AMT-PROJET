@@ -76,11 +76,6 @@ public class AuthResource {
             return API.createErrorResponse("Username or email already taken");
         }
 
-        // TODO: Check if username/email/password are ok
-
-
-
-        // TODO: Implement password hashing / hashing strategy
 
         Account account = new Account();
         account.setUsername(username);
