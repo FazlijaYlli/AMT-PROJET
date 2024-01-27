@@ -52,7 +52,7 @@ public class AuthResource {
             return API.createErrorResponse("Not logged in");
         }
 
-        return API.createResponse("Me :3 WuW", us.resolve(securityContext));
+        return API.createResponse("User info", us.resolve(securityContext));
     }
 
     //TODO: Implement register
