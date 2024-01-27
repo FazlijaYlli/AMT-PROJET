@@ -18,7 +18,7 @@
             </div>
             <div id="username-label" style="display: none">
                 <span class="font-semibold mr-1">You are logged in as</span>
-                <span id="username" class="font-light"></span>
+                <span id="username-header" class="font-light"></span>
             </div>
         </div>
         <div class="m-3 flex flex-col">
@@ -39,7 +39,7 @@
                 const json = JSON.parse(result);
                 console.log();
                 document.getElementById("username-label").style.display = "block";
-                document.getElementById("username").innerHTML = json.data.username;
+                document.getElementById("username-header").innerHTML = json.data.username;
             }
         });
     </script>
