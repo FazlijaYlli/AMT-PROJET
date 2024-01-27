@@ -6,17 +6,36 @@ async function register() {
     const password = document.getElementById("password").value;
     const passwordConfirm = document.getElementById("password-confirm").value;
 
-    let content = await invoke("register", { username: username, email: email, password: password, password_confirm: passwordConfirm });
+    let content = JSON.parse(await invoke("register", { username: username, email: email, password: password, password_confirm: passwordConfirm }));
+
     console.log(content);
-    window.location.replace("/static/login.html");
+
+    if (content.status === "200") {
+        window.location.replace("/static/login.html");
+    } else {
+        document.getElementById("password").value = "";
+        document.getElementById("password-confirm").value = "";
+        document.getElementById("error").textContent = "An error occured during register. Please try again.";
+    }
 }
 
 async function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     let content = await invoke("login", { email: email, password: password });
-    console.log(content);
-    window.location.replace("/index.html");
+
+    if (content) {
+        JSON.parse(content);
+        console.log(content);
+        if (content.status === "400") {
+            document.getElementById("password").value = "";
+            document.getElementById("error").textContent = "An error occured during login. Please try again.";
+        } else {
+            window.location.replace("/index.html");
+        }
+    } else {
+        window.location.replace("/index.html");
+    }
 }
 
 async function listServers() {
@@ -98,7 +117,8 @@ async function logout() {
 
 async function getMe() {
     let content = await invoke("get_me");
-    console.log(content);
+    //console.log(content);
+    return content;
 }
 
 async function sendMsg(serverId, categoryId, channelId, text) {

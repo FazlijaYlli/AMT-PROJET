@@ -57,12 +57,12 @@ async fn register_request(username: &str, email: &str, password: &str, password_
 // LOGIN FUNCTIONS
 
 #[tauri::command(rename_all = "snake_case")]
-fn login(email: &str, password: &str) -> () {
-    login_request(email, password).unwrap();
+fn login(email: &str, password: &str) -> String {
+    login_request(email, password).unwrap()
 }
 
 #[tokio::main]
-async fn login_request(email: &str, password: &str) -> Result<(), Box<dyn std::error::Error>> {
+async fn login_request(email: &str, password: &str) -> Result<String, Box<dyn std::error::Error>> {
     let mut headers = reqwest::header::HeaderMap::new();
     headers.insert("Content-Type", "application/x-www-form-urlencoded".parse()?);
 
@@ -80,7 +80,11 @@ async fn login_request(email: &str, password: &str) -> Result<(), Box<dyn std::e
         println!("Got cookie: {:?}", cookie);
     });
 
-    Ok(())
+    let body = response.text().await?;
+
+    println!("{}", body);
+
+    Ok(body)
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -98,6 +102,11 @@ async fn logout_request() -> Result<String, Box<dyn std::error::Error>> {
         .headers(headers);
 
     let response = request.send().await?;
+
+    response.cookies().for_each(|cookie| {
+        println!("Got cookie: {:?}", cookie);
+    });
+
     let body = response.text().await?;
 
     println!("{}", body);
@@ -316,14 +325,9 @@ async fn get_me_request() -> Result<String, Box<dyn std::error::Error>> {
     let request = CLIENT.request(reqwest::Method::GET, URL.to_string() + "/me");
 
     let response = request.send().await?;
+    let body = response.text().await?;
 
-    if response.status() == 200 {
-        let body = response.text().await?;
-        println!("{}", body);
-        return Ok(body);
-    } else {
-        return Err("".into());
-    }
+    Ok(body)
 }
 
 // END ME FUNCTIONS

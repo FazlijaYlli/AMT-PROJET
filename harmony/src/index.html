@@ -16,6 +16,10 @@
                 <span class="font-semibold text-2xl mr-2">Harmony</span>
                 <span class="font-light text-2xl">Homepage</span>
             </div>
+            <div id="username-label" style="display: none">
+                <span class="font-semibold mr-1">You are logged in as</span>
+                <span id="username" class="font-light"></span>
+            </div>
         </div>
         <div class="m-3 flex flex-col">
             <div class="mb-5">
@@ -25,11 +29,20 @@
             <a class="bg-blue-500 rounded p-2 font-semibold text-white w-fit mb-3" href="/static/login.html">Login</a>
             <a class="bg-blue-500 rounded p-2 font-semibold text-white w-fit mb-3" href="/static/register.html">Register</a>
             <a class="bg-blue-500 rounded p-2 font-semibold text-white w-fit mb-3" href="/static/server_list.html">Liste Servers</a>
-            <button onclick="getMe()" class="bg-blue-500 rounded p-2 font-semibold text-white w-fit mb-3">Infos</button>
             <button onclick="logout()" class="bg-blue-500 rounded p-2 font-semibold text-white w-fit mb-3">Logout</button>
         </div>
     </div>
     <script src="/static/script.js" type="text/javascript"></script>
+    <script>
+        const content = getMe().then((result) => {
+            if (result) {
+                const json = JSON.parse(result);
+                console.log();
+                document.getElementById("username-label").style.display = "block";
+                document.getElementById("username").innerHTML = json.data.username;
+            }
+        });
+    </script>
 </body>
 
 </html>
