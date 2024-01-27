@@ -1,18 +1,25 @@
-# Tauri + Vanilla
+# Pre-requisites
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Node.js](https://nodejs.org/en/download/)
+- Tauri CLI: `cargo install tauri-cli`
 
-## Launching the web application
-1. Install the Tauri CLI step 1 : `cargo install create-tauri-app --locked`
-2. Install the Tauri CLI step 2 : `cargo install tauri-cli`
-3. Launch : `cargo tauri dev`   
+# Dev mode
 
-## Recommended IDE Setup
+Run the watch command for CSS from `src` folder to generate the `output.css`` file
+```shell script
+npx tailwindcss -i ./static/style/styles.css -o ./static/style/output.css --watch
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Run the tauri app from the `src-tauri` folder
+```shell script
+cargo tauri dev
+```
 
-## Run the watch command for CSS from src folder
-``npx tailwindcss -i ./static/style/styles.css -o ./static/style/output.css --watch``
+# Build
+Run the build command inside the `src-tauri` folder
+```shell script
+cargo tauri build 
+```
 
-## Run the tauri app from the src-tauri folder
-``cargo tauri dev``
+Output will be in `src-tauri/target/release/bundle` folder.
